@@ -1,15 +1,20 @@
-import { Link } from "react-router-dom";
-
-function Signup() {
+function SignupModal({ setShowSignup }) {
 
   return (
 
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-[400px]">
+      <div className="bg-white w-[400px] p-8 rounded-2xl relative">
 
-        <h1 className="text-3xl font-bold text-center mb-6">
-          Create Account
+        <button
+          onClick={() => setShowSignup(false)}
+          className="absolute top-4 right-4 text-2xl"
+        >
+          ×
+        </button>
+
+        <h1 className="text-3xl font-bold mb-6">
+          Create your account
         </h1>
 
         <form className="space-y-4">
@@ -35,23 +40,10 @@ function Signup() {
           <button
             className="w-full bg-black text-white py-3 rounded-lg"
           >
-            Signup
+            Create Account
           </button>
 
         </form>
-
-        <p className="text-center mt-4">
-
-          Already have an account?
-
-          <Link
-            to="/"
-            className="text-blue-500 ml-2"
-          >
-            Login
-          </Link>
-
-        </p>
 
       </div>
 
@@ -60,4 +52,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default SignupModal;

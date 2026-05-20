@@ -1,30 +1,34 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import LandingPage from "./pages/LandingPage";
+
+import LoginModal from "./components/LoginModal";
+import SignupModal from "./components/SignupModal";
 
 function App() {
 
+  const [showLogin, setShowLogin] = useState(false);
+
+  const [showSignup, setShowSignup] = useState(false);
+
   return (
+    <>
 
-    <BrowserRouter>
+      <LandingPage
+        onLoginClick={() => setShowLogin(true)}
+        onSignupClick={() => setShowSignup(true)}
+      />
 
-      <Routes>
+      {showLogin && (
+        <LoginModal setShowLogin={setShowLogin} />
+        
+      )}
 
-        <Route
-          path="/"
-          element={<Login />}
-        />
+      {showSignup && (
+        <SignupModal setShowSignup={setShowSignup} />
+      )}
 
-        <Route
-          path="/signup"
-          element={<Signup />}
-        />
-
-      </Routes>
-
-    </BrowserRouter>
-
+    </>
   );
 }
 
