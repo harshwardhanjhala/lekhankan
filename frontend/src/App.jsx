@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import LandingPage from "./pages/LandingPage";
 
-import LoginModal from "./components/LoginModal";
-import SignupModal from "./components/SignupModal";
+import LoginModal from "./components/auth/LoginModal";
+import SignupModal from "./components/auth/SignupModal";
 
 function App() {
 
@@ -12,6 +12,7 @@ function App() {
   const [showSignup, setShowSignup] = useState(false);
 
   return (
+
     <>
 
       <LandingPage
@@ -19,16 +20,30 @@ function App() {
         onSignupClick={() => setShowSignup(true)}
       />
 
+      {/* Login Modal */}
+
       {showLogin && (
-        <LoginModal setShowLogin={setShowLogin} />
-        
+
+        <LoginModal
+          setShowLogin={setShowLogin}
+          setShowSignup={setShowSignup}
+        />
+
       )}
 
+      {/* Signup Modal */}
+
       {showSignup && (
-        <SignupModal setShowSignup={setShowSignup} />
+
+        <SignupModal
+          setShowSignup={setShowSignup}
+          setShowLogin={setShowLogin}
+        />
+
       )}
 
     </>
+
   );
 }
 
