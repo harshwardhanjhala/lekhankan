@@ -1,11 +1,12 @@
 import {
-  Wallet,
   Upload,
   TrendingDown,
   PieChart,
   Shield,
   Zap,
 } from "lucide-react";
+
+import logo from "../assets/logo.png";
 
 export default function LandingPage({
   onLoginClick,
@@ -14,40 +15,36 @@ export default function LandingPage({
 
   return (
 
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-[#faf5ff] via-white to-[#fff1f7]">
 
       {/* Navbar */}
 
-      <nav className="border-b border-gray-200 bg-white/80 backdrop-blur-md sticky top-0 z-40">
+      <nav className="border-b border-[#f3e8ff] bg-white/70 backdrop-blur-xl sticky top-0 z-40">
 
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="w-full px-10 md:px-16 py-2 flex items-center justify-between">
 
-          <div className="flex items-center gap-2">
-
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-
-              <Wallet className="w-6 h-6 text-white" />
-
-            </div>
-
-            <span className="text-xl font-semibold">
-              Lekhankan
-            </span>
-
+          <div className="flex items-center">
+          
+            <img
+              src={logo}
+              alt="Lekhankan Logo"
+              className="h-24 md:h-28 object-contain"
+            />
+          
           </div>
 
           <div className="flex items-center gap-4">
 
             <button
               onClick={onLoginClick}
-              className="px-6 py-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="px-6 py-2 text-[#4B1D74] hover:bg-[#f3e8ff] rounded-xl transition-all duration-300"
             >
               Log in
             </button>
 
             <button
               onClick={onSignupClick}
-              className="px-6 py-2 bg-black text-white rounded-lg hover:opacity-90 transition-opacity"
+              className="px-6 py-2 bg-[#4B1D74] text-white rounded-xl hover:bg-[#5d278f] transition-all duration-300 shadow-lg shadow-purple-200"
             >
               Sign up
             </button>
@@ -64,13 +61,13 @@ export default function LandingPage({
 
         <section className="max-w-7xl mx-auto px-6 py-20 text-center">
 
-          <div className="inline-block mb-4 px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm">
+          <div className="inline-block mb-4 px-5 py-2 bg-pink-100 text-[#FF5C9A] rounded-full text-sm font-medium">
 
             Next-Gen Expense Management
 
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-[#4B1D74] to-[#FF5C9A] bg-clip-text text-transparent leading-tight">
 
             Track expenses smarter,
             <br />
@@ -89,14 +86,14 @@ export default function LandingPage({
 
             <button
               onClick={onSignupClick}
-              className="px-8 py-4 bg-black text-white rounded-xl hover:opacity-90 transition-opacity text-lg"
+              className="px-8 py-4 bg-[#4B1D74] text-white rounded-2xl hover:bg-[#5d278f] transition-all duration-300 text-lg shadow-xl shadow-purple-200"
             >
               Get started free
             </button>
 
             <button
               onClick={onLoginClick}
-              className="px-8 py-4 border-2 border-gray-300 rounded-xl hover:bg-gray-100 transition-colors text-lg"
+              className="px-8 py-4 border border-[#e9d5ff] bg-white/70 rounded-2xl hover:bg-[#faf5ff] transition-all duration-300 text-lg text-[#4B1D74]"
             >
               Watch demo
             </button>
@@ -107,11 +104,11 @@ export default function LandingPage({
 
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
 
-            <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-200">
+            <div className="p-6 bg-white/70 backdrop-blur-lg rounded-3xl shadow-lg border border-[#f3e8ff] hover:shadow-2xl transition-all duration-300">
 
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 mx-auto">
+              <div className="w-12 h-12 bg-[#f3e8ff] rounded-xl flex items-center justify-center mb-4 mx-auto">
 
-                <Upload className="w-6 h-6 text-blue-600" />
+                <Upload className="w-6 h-6 text-[#4B1D74]" />
 
               </div>
 
@@ -128,11 +125,11 @@ export default function LandingPage({
 
             </div>
 
-            <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-200">
+            <div className="p-6 bg-white/70 backdrop-blur-lg rounded-3xl shadow-lg border border-[#f3e8ff] hover:shadow-2xl transition-all duration-300">
 
-              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 mx-auto">
+              <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mb-4 mx-auto">
 
-                <PieChart className="w-6 h-6 text-purple-600" />
+                <PieChart className="w-6 h-6 text-[#FF5C9A]" />
 
               </div>
 
@@ -148,11 +145,11 @@ export default function LandingPage({
 
             </div>
 
-            <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-200">
+            <div className="p-6 bg-white/70 backdrop-blur-lg rounded-3xl shadow-lg border border-[#f3e8ff] hover:shadow-2xl transition-all duration-300">
 
-              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 mx-auto">
+              <div className="w-12 h-12 bg-[#ffe4ef] rounded-xl flex items-center justify-center mb-4 mx-auto">
 
-                <TrendingDown className="w-6 h-6 text-green-600" />
+                <TrendingDown className="w-6 h-6 text-[#FF5C9A]" />
 
               </div>
 
@@ -175,7 +172,7 @@ export default function LandingPage({
 
         {/* Why Choose Section */}
 
-        <section className="bg-white py-20 border-y border-gray-200">
+        <section className="bg-white/50 backdrop-blur-lg py-20 border-y border-[#f3e8ff]">
 
           <div className="max-w-7xl mx-auto px-6">
 
@@ -308,7 +305,7 @@ export default function LandingPage({
 
           <button
             onClick={onSignupClick}
-            className="px-8 py-4 bg-black text-white rounded-xl hover:opacity-90 transition-opacity text-lg"
+            className="px-8 py-4 bg-[#4B1D74] text-white rounded-2xl hover:bg-[#5d278f] transition-all duration-300 text-lg shadow-xl shadow-purple-200"
           >
             Start tracking for free
           </button>
@@ -319,7 +316,7 @@ export default function LandingPage({
 
       {/* Footer */}
 
-      <footer className="border-t border-gray-200 bg-white">
+      <footer className="border-t border-[#f3e8ff] bg-white/40 backdrop-blur-lg">
 
         <div className="max-w-7xl mx-auto px-6 py-8 text-center text-sm text-gray-500">
 

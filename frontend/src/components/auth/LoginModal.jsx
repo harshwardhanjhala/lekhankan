@@ -64,22 +64,22 @@ function LoginModal({
 
   return (
 
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-[#1a0b2e]/60 backdrop-blur-sm flex items-center justify-center z-50">
 
-      <div className="bg-white w-[400px] p-8 rounded-2xl relative">
+      <div className="bg-white/95 border border-pink-100 shadow-2xl w-[400px] p-8 rounded-3xl relative">
 
         {/* Close Button */}
 
         <button
           onClick={() => setShowLogin(false)}
-          className="absolute top-4 right-4 text-2xl"
+          className="absolute top-4 right-4 text-2xl text-[#5b2a86] hover:text-pink-500 transition-colors"
         >
           ×
         </button>
 
         {/* Heading */}
 
-        <h1 className="text-3xl font-bold mb-6">
+        <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-[#5b2a86] to-pink-500 bg-clip-text text-transparent">
 
           Welcome back
 
@@ -99,7 +99,7 @@ function LoginModal({
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border p-3 rounded-lg"
+            className="w-full border border-pink-100 focus:border-[#5b2a86] focus:ring-2 focus:ring-pink-200 outline-none p-3 rounded-xl transition-all"
           />
 
           {/* Password */}
@@ -111,7 +111,7 @@ function LoginModal({
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border p-3 rounded-lg pr-12"
+              className="w-full border border-pink-100 focus:border-[#5b2a86] focus:ring-2 focus:ring-pink-200 outline-none p-3 rounded-xl pr-12 transition-all"
             />
 
             <button
@@ -119,7 +119,7 @@ function LoginModal({
               onClick={() =>
                 setShowPassword(!showPassword)
               }
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#5b2a86] hover:text-pink-500 transition-colors"
             >
 
               {showPassword ? (
@@ -145,7 +145,7 @@ function LoginModal({
           {/* Login Button */}
 
           <button
-            className="w-full bg-black text-white py-3 rounded-lg"
+            className="w-full bg-gradient-to-r from-[#5b2a86] to-pink-500 hover:opacity-90 text-white py-3 rounded-xl font-semibold transition-all shadow-lg"
           >
 
             {loading ? "Signing in..." : "Sign in"}
@@ -156,7 +156,7 @@ function LoginModal({
 
         {/* Switch To Signup */}
 
-        <p className="text-center text-gray-600 mt-5">
+        <p className="text-center text-gray-500 mt-5">
 
           Don't have an account?
 
@@ -168,7 +168,7 @@ function LoginModal({
               setShowSignup(true);
 
             }}
-            className="ml-1 font-semibold hover:underline"
+            className="ml-1 font-semibold text-[#5b2a86] hover:text-pink-500 transition-colors"
           >
 
             Sign up

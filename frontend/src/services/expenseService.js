@@ -53,3 +53,23 @@ export const getExpenses = async (
   return data;
 
 };
+
+export const deleteExpense = async (
+  expenseId
+) => {
+
+  const { error } = await supabase
+
+    .from("expenses")
+
+    .delete()
+
+    .eq("id", expenseId);
+
+  if (error) {
+
+    throw error;
+
+  }
+
+};

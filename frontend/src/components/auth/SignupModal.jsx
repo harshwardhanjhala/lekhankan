@@ -99,22 +99,22 @@ function SignupModal({
 
   return (
 
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4">
 
-      <div className="bg-white w-[400px] p-8 rounded-2xl relative">
+      <div className="bg-white w-full max-w-md p-8 rounded-3xl relative shadow-2xl border border-pink-100">
 
         {/* Close Button */}
 
         <button
           onClick={() => setShowSignup(false)}
-          className="absolute top-4 right-4 text-2xl"
+          className="absolute top-4 right-4 text-2xl text-gray-400 hover:text-pink-500 transition-colors"
         >
           ×
         </button>
 
         {/* Heading */}
 
-        <h1 className="text-3xl font-bold mb-6">
+        <h1 className="text-3xl font-bold mb-2 text-[#4B1D83]">
 
           Create Account
 
@@ -132,7 +132,7 @@ function SignupModal({
             placeholder="Full Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full border p-3 rounded-lg"
+            className="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
           />
 
           <input
@@ -140,7 +140,7 @@ function SignupModal({
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border p-3 rounded-lg"
+            className="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
           />
 
           <div className="relative">
@@ -150,13 +150,13 @@ function SignupModal({
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border p-3 rounded-lg pr-12"
+              className="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
             />
           
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-pink-500 transition-colors"
             >
           
               {showPassword ? (
@@ -178,7 +178,7 @@ function SignupModal({
               onChange={(e) =>
                 setConfirmPassword(e.target.value)
               }
-              className="w-full border p-3 rounded-lg pr-12"
+              className="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
             />
           
             <button
@@ -186,7 +186,7 @@ function SignupModal({
               onClick={() =>
                 setShowConfirmPassword(!showConfirmPassword)
               }
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-pink-500 transition-colors"
             >
           
               {showConfirmPassword ? (
@@ -210,7 +210,7 @@ function SignupModal({
           )}
 
           <button
-            className="w-full bg-black text-white py-3 rounded-lg"
+            className="w-full bg-gradient-to-r from-[#4B1D83] to-[#FF5DA2] text-white py-3 rounded-xl font-medium hover:scale-[1.02] transition-all duration-300 shadow-lg"
           >
 
             {loading ? "Creating..." : "Create Account"}
@@ -230,7 +230,7 @@ function SignupModal({
               setShowLogin(true);
         
             }}
-            className="ml-1 font-semibold hover:underline"
+            className="ml-1 font-semibold text-[#FF5DA2] hover:underline"
           >
         
             Login
