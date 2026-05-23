@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { supabase } from "../../lib/supabase";
 
 import {
   Eye,
@@ -16,27 +17,50 @@ function LoginModal({
 
   const [password, setPassword] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
 
-    e.preventDefault();
-  
-    if (!email || !password) {
-  
-      setError("Please fill all fields");
-  
+  e.preventDefault();
+
+  setError("");
+
+  try {
+
+    setLoading(true);
+
+    const { error } =
+      await supabase.auth.signInWithPassword({
+
+        email,
+        password,
+
+      });
+
+    if (error) {
+
+      setError(error.message);
+
       return;
-  
+
     }
-  
-    setError("");
-  
-    console.log("Login Successful");
-  
+
+
     setShowLogin(false);
-  
-  };
+
+  } catch (err) {
+
+    setError(err.message);
+
+  } finally {
+
+    setLoading(false);
+
+  }
+
+};
 
   return (
 
@@ -124,7 +148,7 @@ function LoginModal({
             className="w-full bg-black text-white py-3 rounded-lg"
           >
 
-            Sign in
+            {loading ? "Signing in..." : "Sign in"}
 
           </button>
 
