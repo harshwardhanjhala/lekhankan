@@ -1,6 +1,28 @@
 import { useEffect, useState } from "react";
 
 import {
+
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+
+} from "recharts";
+
+const COLORS = [
+
+  "#4B1D83",
+  "#FF4F9A",
+  "#7C3AED",
+  "#EC4899",
+  "#8B5CF6",
+  "#F472B6",
+
+];
+
+import {
   DollarSign,
   TrendingUp,
   CreditCard,
@@ -47,6 +69,31 @@ function Dashboard({
     total + Number(expense.amount),
 
   0
+
+);
+
+// CATEGORY DATA FOR PIE CHART
+
+const categoryData = Object.values(
+
+  expenses.reduce((acc, expense) => {
+
+    if (!acc[expense.category]) {
+
+      acc[expense.category] = {
+
+        name: expense.category,
+        value: 0,
+
+      };
+
+    }
+
+    acc[expense.category].value += Number(expense.amount);
+
+    return acc;
+
+  }, {})
 
 );
 
@@ -352,6 +399,61 @@ const handleEditExpense = async (
           </div>
         
         </div>
+
+      {/* ANALYTICS */}
+
+      <div className="bg-white rounded-3xl border border-gray-200 p-8 mb-10">
+      
+        <h2 className="text-2xl font-bold mb-8">
+      
+          Spending Analytics
+      
+        </h2>
+      
+        <div className="w-full h-[400px]">
+      
+          <ResponsiveContainer>
+      
+            <PieChart>
+      
+              <Pie
+                data={categoryData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={140}
+                label
+              >
+      
+                {
+      
+                  categoryData.map((entry, index) => (
+      
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={
+                        COLORS[index % COLORS.length]
+                      }
+                    />
+      
+                  ))
+      
+                }
+      
+              </Pie>
+      
+              <Tooltip />
+      
+              <Legend />
+      
+            </PieChart>
+      
+          </ResponsiveContainer>
+      
+        </div>
+      
+      </div>
 
       {/* EXPENSES LIST */}
 
