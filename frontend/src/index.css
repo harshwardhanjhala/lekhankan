@@ -1,5 +1,3 @@
-/* Remove browser password eye icon */
-
 input::-ms-reveal,
 input::-ms-clear {
   display: none;

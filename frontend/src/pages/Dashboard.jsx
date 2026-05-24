@@ -215,9 +215,33 @@ const handleEditExpense = async (
             className="h-14"
           />
       
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-[#4B1D83] to-[#FF4F9A] bg-clip-text text-transparent">
-            Lekhankan
-          </h1>
+          <div>
+        
+            <h1 className="text-4xl font-extrabold tracking-tight leading-none">
+
+              <span className="text-[#4B1D83]">
+                Lekhan
+              </span>
+            
+              <span className="text-[#FF4F9A]">
+                kan
+              </span>
+            
+            </h1>
+        
+            <p className="text-sm text-gray-500">
+        
+              Welcome back,
+              {" "}
+        
+              {
+                user.user_metadata?.full_name ||
+                user.email
+              }
+        
+            </p>
+        
+          </div>
       
         </div>
       

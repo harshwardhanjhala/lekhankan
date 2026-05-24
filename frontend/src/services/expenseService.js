@@ -29,20 +29,14 @@ export const getExpenses = async (
   userId
 ) => {
 
-  const {
-    data,
-    error,
-  } = await supabase
-
-    .from("expenses")
-
-    .select("*")
-
-    .eq("user_id", userId)
-
-    .order("created_at", {
-      ascending: false,
-    });
+  const { data, error } =
+    await supabase
+      .from("expenses")
+      .select("*")
+      .eq("user_id", userId)
+      .order("date", {
+        ascending: false,
+      });
 
   if (error) {
 
