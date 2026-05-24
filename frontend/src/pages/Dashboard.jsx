@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 
 import {
-
   PieChart,
   Pie,
   Cell,
   Tooltip,
   ResponsiveContainer,
   Legend,
-
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
 } from "recharts";
 
 const COLORS = [
@@ -90,6 +93,41 @@ const categoryData = Object.values(
     }
 
     acc[expense.category].value += Number(expense.amount);
+
+    return acc;
+
+  }, {})
+
+);
+
+// MONTHLY DATA FOR BAR CHART
+
+const monthlyData = Object.values(
+
+  expenses.reduce((acc, expense) => {
+
+    const month = new Date(
+      expense.date
+    ).toLocaleString("default", {
+
+      month: "short",
+
+    });
+
+    if (!acc[month]) {
+
+      acc[month] = {
+
+        month,
+        amount: 0,
+
+      };
+
+    }
+
+    acc[month].amount += Number(
+      expense.amount
+    );
 
     return acc;
 
@@ -448,6 +486,48 @@ const handleEditExpense = async (
               <Legend />
       
             </PieChart>
+      
+          </ResponsiveContainer>
+      
+        </div>
+      
+      </div>
+
+      {/* MONTHLY BAR CHART */}
+
+      <div className="bg-white rounded-3xl border border-gray-200 p-8 mb-10">
+      
+        <h2 className="text-2xl font-bold mb-8">
+      
+          Monthly Spending
+      
+        </h2>
+      
+        <div className="w-full h-[400px]">
+      
+          <ResponsiveContainer>
+      
+            <BarChart
+              data={monthlyData}
+            >
+      
+              <CartesianGrid
+                strokeDasharray="3 3"
+              />
+      
+              <XAxis dataKey="month" />
+      
+              <YAxis />
+      
+              <Tooltip />
+      
+              <Bar
+                dataKey="amount"
+                fill="#4B1D83"
+                radius={[10, 10, 0, 0]}
+              />
+      
+            </BarChart>
       
           </ResponsiveContainer>
       
