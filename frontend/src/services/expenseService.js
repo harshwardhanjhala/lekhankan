@@ -73,3 +73,27 @@ export const deleteExpense = async (
   }
 
 };
+
+export const updateExpense = async (
+  expenseId,
+  updatedData
+) => {
+
+  const { data, error } =
+    await supabase
+
+      .from("expenses")
+
+      .update(updatedData)
+
+      .eq("id", expenseId);
+
+  if (error) {
+
+    throw error;
+
+  }
+
+  return data;
+
+};

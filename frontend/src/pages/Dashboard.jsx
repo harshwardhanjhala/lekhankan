@@ -12,6 +12,7 @@ import {
   addExpense,
   getExpenses,
   deleteExpense,
+  updateExpense,
 } from "../services/expenseService";
 
 import logo from "../assets/logo.png";
@@ -36,6 +37,8 @@ function Dashboard({
   const [loading, setLoading] = useState(false);
 
   const [showAddExpense, setShowAddExpense] = useState(false);
+
+  const [editingExpense, setEditingExpense] = useState(null);
 
   const totalExpenses = expenses.reduce(
 
@@ -97,19 +100,34 @@ function Dashboard({
 
       setLoading(true);
 
-      await addExpense({
-
-        title,
-
-        amount,
-
-        category,
-
-        date,
-
-        user_id: user.id,
-
-      });
+      if (editingExpense) {
+      
+        await updateExpense(
+      
+          editingExpense.id,
+      
+          {
+            title,
+            amount,
+            category,
+            date,
+          }
+      
+        );
+      
+      } else {
+      
+        await addExpense({
+      
+          title,
+          amount,
+          category,
+          date,
+          user_id: user.id,
+      
+        });
+      
+      }
 
       setTitle("");
 
@@ -118,6 +136,10 @@ function Dashboard({
       setCategory("");
 
       setDate("");
+
+      setEditingExpense(null);
+
+      setShowAddExpense(false);
 
       fetchExpenses();
 
@@ -144,6 +166,30 @@ function Dashboard({
     );
 
     fetchExpenses();
+
+  } catch (error) {
+
+    alert(error.message);
+
+  }
+
+};
+
+const handleEditExpense = async (
+  expenseId,
+  updatedExpense
+) => {
+
+  try {
+
+    await updateExpense(
+      expenseId,
+      updatedExpense
+    );
+
+    fetchExpenses();
+
+    setEditingExpense(null);
 
   } catch (error) {
 
@@ -335,6 +381,29 @@ function Dashboard({
                     ₹ {expense.amount}
                 
                   </p>
+
+                  <button
+                    onClick={() => {
+                  
+                      setEditingExpense(expense);
+                  
+                      setTitle(expense.title);
+                  
+                      setAmount(expense.amount);
+                  
+                      setCategory(expense.category);
+                  
+                      setDate(expense.date);
+                  
+                      setShowAddExpense(true);
+                  
+                    }}
+                    className="border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100"
+                  >
+                  
+                    Edit
+                  
+                  </button>
                 
                   <button
                     onClick={() =>
@@ -377,6 +446,8 @@ function Dashboard({
             setDate={setDate}
             handleAddExpense={handleAddExpense}
             loading={loading}
+            editingExpense={editingExpense}
+            handleEditExpense={handleEditExpense}
           />
         )
       }

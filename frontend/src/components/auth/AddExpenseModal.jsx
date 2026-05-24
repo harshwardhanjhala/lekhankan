@@ -10,6 +10,8 @@ function AddExpenseModal({
   setDate,
   handleAddExpense,
   loading,
+  editingExpense,
+  handleEditExpense,
 }) {
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
@@ -26,11 +28,19 @@ function AddExpenseModal({
 
         {/* Heading */}
         <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-[#5B2C83] to-[#FF5FA2] bg-clip-text text-transparent">
-          Add Expense
+          {
+            editingExpense
+              ? "Edit Expense"
+              : "Add Expense"
+          }
         </h1>
 
         <p className="text-gray-500 mb-6">
-          Track your spending smartly
+          {
+            editingExpense
+              ? "Update your expense details"
+              : "Track your spending smartly"
+          }
         </p>
 
         {/* Form */}
@@ -106,8 +116,16 @@ function AddExpenseModal({
           >
             {
               loading
-                ? "Adding..."
-                : "Add Expense"
+                ? (
+                    editingExpense
+                      ? "Updating..."
+                      : "Adding..."
+                  )
+                : (
+                    editingExpense
+                      ? "Update Expense"
+                      : "Add Expense"
+                  )
             }
           </button>
 
