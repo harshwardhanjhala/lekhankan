@@ -70,17 +70,7 @@ function Dashboard({
 
   const [editingExpense, setEditingExpense] = useState(null);
 
-  const totalExpenses = expenses.reduce(
-
-  (total, expense) =>
-
-    total + Number(expense.amount),
-
-  0
-
-);
-
-const filteredExpenses = expenses.filter(
+  const filteredExpenses = expenses.filter(
   (expense) => {
 
     const matchesSearch =
@@ -106,11 +96,21 @@ const filteredExpenses = expenses.filter(
   }
 );
 
+  const totalExpenses = filteredExpenses.reduce(
+
+  (total, expense) =>
+
+    total + Number(expense.amount),
+
+  0
+
+);
+
 // CATEGORY DATA FOR PIE CHART
 
 const categoryData = Object.values(
 
-  expenses.reduce((acc, expense) => {
+  filteredExpenses.reduce((acc, expense) => {
 
     if (!acc[expense.category]) {
 
@@ -135,7 +135,7 @@ const categoryData = Object.values(
 
 const monthlyData = Object.values(
 
-  expenses.reduce((acc, expense) => {
+  filteredExpenses.reduce((acc, expense) => {
 
     const month = new Date(
       expense.date
@@ -424,7 +424,7 @@ const handleEditExpense = async (
             <div className="flex justify-between items-start mb-6">
         
               <p className="text-gray-500 text-lg">
-                This Month
+                Total Transactions
               </p>
         
               <TrendingUp className="text-pink-500" />
@@ -432,11 +432,11 @@ const handleEditExpense = async (
             </div>
         
             <h2 className="text-4xl font-bold mb-2">
-              {expenses.length}
+              {filteredExpenses.length}
             </h2>
         
             <p className="text-gray-400">
-              Transactions
+              All time
             </p>
         
           </div>
@@ -457,7 +457,7 @@ const handleEditExpense = async (
         
             <h2 className="text-4xl font-bold mb-2">
         
-              {[...new Set(expenses.map((e) => e.category))].length}
+              {[...new Set(filteredExpenses.map((e) => e.category))].length}
         
             </h2>
         
@@ -470,6 +470,8 @@ const handleEditExpense = async (
         </div>
 
       {/* ANALYTICS */}
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
 
       <div className="bg-white rounded-3xl border border-gray-200 p-8 mb-10">
       
@@ -564,6 +566,8 @@ const handleEditExpense = async (
       
         </div>
       
+      </div>
+
       </div>
 
       {/* FILTERS */}
