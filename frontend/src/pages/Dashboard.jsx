@@ -59,6 +59,11 @@ function Dashboard({
 
   const [expenses, setExpenses] = useState([]);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [filterCategory, setFilterCategory] =
+  useState("All");
+
   const [loading, setLoading] = useState(false);
 
   const [showAddExpense, setShowAddExpense] = useState(false);
@@ -73,6 +78,32 @@ function Dashboard({
 
   0
 
+);
+
+const filteredExpenses = expenses.filter(
+  (expense) => {
+
+    const matchesSearch =
+
+      expense.title
+        .toLowerCase()
+        .includes(
+          searchTerm.toLowerCase()
+        );
+
+    const matchesCategory =
+
+      filterCategory === "All" ||
+
+      expense.category ===
+        filterCategory;
+
+    return (
+      matchesSearch &&
+      matchesCategory
+    );
+
+  }
 );
 
 // CATEGORY DATA FOR PIE CHART
@@ -535,6 +566,60 @@ const handleEditExpense = async (
       
       </div>
 
+      {/* FILTERS */}
+
+      <div className="bg-white rounded-3xl border border-gray-200 p-6 mb-8 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
+      
+        <input
+          type="text"
+          placeholder="Search expenses..."
+          value={searchTerm}
+          onChange={(e) =>
+            setSearchTerm(e.target.value)
+          }
+          className="border border-gray-200 rounded-xl px-4 py-3 w-full md:w-[300px] focus:outline-none focus:ring-2 focus:ring-pink-300"
+        />
+      
+        <select
+          value={filterCategory}
+          onChange={(e) =>
+            setFilterCategory(e.target.value)
+          }
+          className="border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
+        >
+      
+          <option value="All">
+            All Categories
+          </option>
+      
+          <option value="Food">
+            Food
+          </option>
+      
+          <option value="Travel">
+            Travel
+          </option>
+      
+          <option value="Shopping">
+            Shopping
+          </option>
+      
+          <option value="Bills">
+            Bills
+          </option>
+      
+          <option value="Entertainment">
+            Entertainment
+          </option>
+      
+          <option value="Other">
+            Other
+          </option>
+      
+        </select>
+      
+      </div>
+
       {/* EXPENSES LIST */}
 
       <div className="grid gap-4">
@@ -551,7 +636,7 @@ const handleEditExpense = async (
 
           ) : (
 
-            expenses.map((expense) => (
+            filteredExpenses.map((expense) => (
 
               <div
                 key={expense.id}
