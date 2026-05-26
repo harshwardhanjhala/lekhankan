@@ -86,6 +86,8 @@ function Dashboard({
 
   const [editingExpense, setEditingExpense] = useState(null);
 
+  const [visibleExpenses, setVisibleExpenses] = useState(6);
+
   const [showDeleteModal, setShowDeleteModal] =
   useState(false);
 
@@ -274,6 +276,16 @@ const monthlyData = Object.values(
     fetchExpenses();
 
   }, []);
+
+useEffect(() => {
+
+  setVisibleExpenses(6);
+
+}, [
+  searchTerm,
+  filterCategory,
+  timeFilter
+]);
 
   // ADD EXPENSE
 
@@ -880,7 +892,9 @@ const getCategoryIcon = (category) => {
 
           ) : (
 
-            filteredExpenses.map((expense) => (
+            filteredExpenses
+              .slice(0, visibleExpenses)
+              .map((expense) => (
 
               <div
                 key={expense.id}
@@ -1004,6 +1018,28 @@ const getCategoryIcon = (category) => {
         }
 
       </div>
+      {
+        visibleExpenses < filteredExpenses.length && (
+      
+          <div className="flex justify-center mt-6">
+      
+            <button
+              onClick={() =>
+                setVisibleExpenses(
+                  prev => prev + 6
+                )
+              }
+              className="bg-gradient-to-r from-[#4B1D83] to-[#FF4F9A] text-white px-6 py-3 rounded-2xl font-medium shadow-md hover:scale-105 transition-all duration-300"
+            >
+      
+              Load More
+      
+            </button>
+      
+          </div>
+      
+        )
+      }
       
       </div>
 
