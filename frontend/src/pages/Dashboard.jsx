@@ -34,6 +34,14 @@ import {
   PlusCircle,
   Search,
   Filter,
+  Utensils,
+  Car,
+  Film,
+  Bolt,
+  Pencil,
+  Trash2,
+  ShoppingBag,
+  Receipt,
 } from "lucide-react";
 
 import {
@@ -46,6 +54,8 @@ import {
 import logo from "../assets/logo.png";
 
 import AddExpenseModal from "../components/auth/AddExpenseModal";
+
+import DeleteConfirmationModal from "../components/auth/DeleteConfirmationModal";
 
 function Dashboard({
   user,
@@ -75,6 +85,12 @@ function Dashboard({
   const [showAddExpense, setShowAddExpense] = useState(false);
 
   const [editingExpense, setEditingExpense] = useState(null);
+
+  const [showDeleteModal, setShowDeleteModal] =
+  useState(false);
+
+  const [expenseToDelete, setExpenseToDelete] =
+  useState(null);
 
   const filteredExpenses = expenses.filter(
   (expense) => {
@@ -382,6 +398,32 @@ const handleEditExpense = async (
 
 };
 
+const getCategoryIcon = (category) => {
+
+  switch (category) {
+
+    case "Food":
+      return <Utensils size={22} className="text-orange-500" />;
+
+    case "Travel":
+      return <Car size={22} className="text-blue-500" />;
+
+    case "Entertainment":
+      return <Film size={22} className="text-purple-500" />;
+
+    case "Bills":
+      return <Bolt size={22} className="text-yellow-500" />;
+
+    case "Shopping":
+      return <ShoppingBag size={22} className="text-pink-500" />;
+
+    default:
+      return <Receipt size={22} className="text-gray-500" />;
+
+  }
+
+};
+
   return (
 
     <div className="min-h-screen bg-[#faf7ff]">
@@ -538,6 +580,18 @@ const handleEditExpense = async (
 
       {/* ANALYTICS */}
 
+      <div className="mb-6">
+
+        <h2 className="text-3xl font-bold text-gray-800">
+          Analytics Overview
+        </h2>
+      
+        <p className="text-gray-500 mt-1">
+          Visual insights of your spending patterns
+        </p>
+      
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
 
       <div className="bg-white rounded-3xl border border-gray-200 p-8 mb-10">
@@ -638,6 +692,18 @@ const handleEditExpense = async (
       </div>
 
       {/* FILTERS */}
+
+      <div className="mb-6">
+
+        <h2 className="text-3xl font-bold text-gray-800">
+          Expenses
+        </h2>
+      
+        <p className="text-gray-500 mt-1">
+          Search, filter and manage your transactions
+        </p>
+      
+      </div>
       
       <div className="bg-white rounded-3xl border border-gray-200 p-6 mb-8 flex flex-col lg:flex-row gap-4 lg:items-center">
       
@@ -751,11 +817,32 @@ const handleEditExpense = async (
 
           expenses.length === 0 ? (
 
-            <p className="text-gray-500">
+            <div className="bg-white border border-dashed border-gray-300 rounded-3xl p-16 text-center">
 
-              No expenses added yet.
-
-            </p>
+              <div className="flex justify-center mb-5">
+            
+                <div className="h-20 w-20 rounded-full bg-gradient-to-r from-[#4B1D83] to-[#FF4F9A] flex items-center justify-center text-white text-3xl shadow-xl">
+                  ₹
+                </div>
+            
+              </div>
+            
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">
+                No Expenses Found
+              </h2>
+            
+              <p className="text-gray-500 mb-6">
+                Start tracking your spending by adding your first expense.
+              </p>
+            
+              <button
+                onClick={() => setShowAddExpense(true)}
+                className="bg-gradient-to-r from-[#4B1D83] to-[#FF4F9A] text-white px-6 py-3 rounded-2xl shadow-lg hover:opacity-90 transition-all"
+              >
+                Add Expense
+              </button>
+            
+            </div>
 
           ) : (
 
@@ -763,77 +850,117 @@ const handleEditExpense = async (
 
               <div
                 key={expense.id}
-                className="bg-white p-6 rounded-3xl border border-gray-200 flex justify-between items-center"
+                className="bg-white border border-gray-200 rounded-3xl px-6 py-5 flex items-center justify-between hover:shadow-lg transition-all duration-300"
               >
-
-                <div>
-
-                  <h3 className="font-semibold text-lg">
-
-                    {expense.title}
-
-                  </h3>
-
-                  <div>
-                  
-                    <p className="text-pink-500 text-sm font-medium">
-                      {expense.category}
-                    </p>
-                  
-                    <p className="text-gray-400 text-sm mt-1">
-                      {expense.date}
-                    </p>
-                  
-                  </div>
-
-                </div>
-
+              
+                {/* LEFT SIDE */}
                 <div className="flex items-center gap-4">
-
-                  <p className="font-bold text-xl">
-                
-                    ₹ {expense.amount}
-                
-                  </p>
-
-                  <button
-                    onClick={() => {
-                  
-                      setEditingExpense(expense);
-                  
-                      setTitle(expense.title);
-                  
-                      setAmount(expense.amount);
-                  
-                      setCategory(expense.category);
-                  
-                      setDate(expense.date);
-                  
-                      setShowAddExpense(true);
-                  
-                    }}
-                    className="border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100"
-                  >
-                  
-                    Edit
-                  
-                  </button>
-                
-                  <button
-                    onClick={() =>
-                      handleDeleteExpense(
-                        expense.id
-                      )
-                    }
-                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-                  >
-                
-                    Delete
-                
-                  </button>
-                
+              
+                  {/* ICON BOX */}
+                  <div className="h-14 w-14 rounded-2xl bg-gray-100 flex items-center justify-center">
+              
+                    {getCategoryIcon(expense.category)}
+              
+                  </div>
+              
+                  {/* DETAILS */}
+                  <div>
+              
+                    <h3 className="text-xl font-semibold text-gray-800">
+              
+                      {expense.title}
+              
+                    </h3>
+              
+                    <div className="flex items-center gap-3 mt-1 flex-wrap">
+              
+                      <p className="text-gray-400 text-sm">
+              
+                        {expense.date}
+              
+                      </p>
+              
+                      <span className="text-gray-300">
+              
+                        •
+              
+                      </span>
+              
+                      <p className="bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full">
+              
+                        {expense.category}
+              
+                      </p>
+              
+                    </div>
+              
+                  </div>
+              
                 </div>
+              
+                {/* RIGHT SIDE */}
+                <div className="flex items-center gap-5">
+              
+                  {/* AMOUNT */}
+                  <p className="text-2xl font-bold text-[#4B1D83]">
+              
+                    ₹ {expense.amount}
+              
+                  </p>
+              
+                  {/* ACTION BUTTONS */}
+                  <div className="flex items-center gap-2">
+              
+                    {/* EDIT */}
+                    <button
+                      onClick={() => {
+              
+                        setEditingExpense(expense);
+              
+                        setTitle(expense.title);
+              
+                        setAmount(expense.amount);
+              
+                        setCategory(expense.category);
+              
+                        setDate(expense.date);
+              
+                        setShowAddExpense(true);
+              
+                      }}
+                      className="p-2 rounded-xl hover:bg-gray-100 transition-all"
+                    >
+              
+                      <Pencil
+                        size={18}
+                        className="text-gray-600"
+                      />
+              
+                    </button>
+              
+                    {/* DELETE */}
+                    <button
+                      onClick={() => {
 
+                        setExpenseToDelete(expense.id);
+                      
+                        setShowDeleteModal(true);
+                      
+                      }}
+                      className="p-2 rounded-xl hover:bg-red-50 transition-all"
+                    >
+              
+                      <Trash2
+                        size={18}
+                        className="text-red-500"
+                      />
+              
+                    </button>
+              
+                  </div>
+              
+                </div>
+              
               </div>
 
             ))
@@ -863,6 +990,32 @@ const handleEditExpense = async (
             editingExpense={editingExpense}
             handleEditExpense={handleEditExpense}
           />
+        )
+      }
+
+      {
+        showDeleteModal && (
+      
+          <DeleteConfirmationModal
+      
+            setShowDeleteModal={
+              setShowDeleteModal
+            }
+      
+            handleConfirmDelete={async () => {
+      
+              await handleDeleteExpense(
+                expenseToDelete
+              );
+      
+              setShowDeleteModal(false);
+      
+              setExpenseToDelete(null);
+      
+            }}
+      
+          />
+      
         )
       }
 
