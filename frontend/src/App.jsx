@@ -5,6 +5,7 @@ import LandingPage from "./pages/LandingPage";
 import LoginModal from "./components/auth/LoginModal";
 import SignupModal from "./components/auth/SignupModal";
 
+import { logout } from "./services/authService";
 
 import { supabase } from "./lib/supabase";
 
@@ -77,7 +78,7 @@ useEffect(() => {
 
 const handleLogout = async () => {
 
-  await supabase.auth.signOut();
+  await logout()
 
 };
 

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { supabase } from "../../lib/supabase";
+import {
+  signUp,
+  signInWithGoogle,
+} from "../../services/authService";
 
 function SignupModal({
   setShowSignup,
@@ -57,19 +60,11 @@ function SignupModal({
 
     setLoading(true);
 
-    const { error } = await supabase.auth.signUp({
-
-      email,
-
-      password,
-
-      options: {
-        data: {
-          full_name: name,
-        },
-      },
-
-    });
+    const { error } = await signUp(
+        fullName,
+        email,
+        password
+      );
 
     if (error) {
 
@@ -215,6 +210,40 @@ function SignupModal({
 
             {loading ? "Creating..." : "Create Account"}
 
+          </button>
+
+          <div className="relative my-5">
+          
+            <div className="absolute inset-0 flex items-center">
+          
+              <div className="w-full border-t border-gray-200"></div>
+          
+            </div>
+          
+            <div className="relative flex justify-center text-sm">
+          
+              <span className="bg-white px-4 text-gray-400">
+                OR
+              </span>
+          
+            </div>
+          
+          </div>
+          
+          <button
+            onClick={signInWithGoogle}
+            type="button"
+            className="w-full border border-gray-200 rounded-xl py-3 flex items-center justify-center gap-3 hover:bg-gray-50 transition-all duration-300"
+          >
+          
+            <img
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+              alt="Google"
+              className="w-5 h-5"
+            />
+          
+            Continue with Google
+          
           </button>
 
         </form>

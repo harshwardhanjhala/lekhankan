@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { supabase } from "../../lib/supabase";
+import {
+  signIn,
+  signInWithGoogle,
+} from "../../services/authService";
 
 import {
   Eye,
@@ -32,12 +35,7 @@ function LoginModal({
     setLoading(true);
 
     const { error } =
-      await supabase.auth.signInWithPassword({
-
-        email,
-        password,
-
-      });
+      await signIn(email, password);
 
     if (error) {
 
@@ -150,6 +148,40 @@ function LoginModal({
 
             {loading ? "Signing in..." : "Sign in"}
 
+          </button>
+          
+          <div className="relative my-5">
+          
+            <div className="absolute inset-0 flex items-center">
+          
+              <div className="w-full border-t border-gray-200"></div>
+          
+            </div>
+          
+            <div className="relative flex justify-center text-sm">
+          
+              <span className="bg-white px-4 text-gray-400">
+                OR
+              </span>
+          
+            </div>
+          
+          </div>
+          
+          <button
+            onClick={signInWithGoogle}
+            type="button"
+            className="w-full border border-gray-200 rounded-xl py-3 flex items-center justify-center gap-3 hover:bg-gray-50 transition-all duration-300"
+          >
+          
+            <img
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+              alt="Google"
+              className="w-5 h-5"
+            />
+          
+            Continue with Google
+          
           </button>
 
         </form>
