@@ -27,10 +27,13 @@ const COLORS = [
 
 import {
   DollarSign,
+  IndianRupeeIcon,
   TrendingUp,
   CreditCard,
   LogOut,
   PlusCircle,
+  Search,
+  Filter,
 } from "lucide-react";
 
 import {
@@ -64,6 +67,9 @@ function Dashboard({
   const [filterCategory, setFilterCategory] =
   useState("All");
 
+  const [timeFilter, setTimeFilter] =
+  useState("All");
+
   const [loading, setLoading] = useState(false);
 
   const [showAddExpense, setShowAddExpense] = useState(false);
@@ -73,6 +79,8 @@ function Dashboard({
   const filteredExpenses = expenses.filter(
   (expense) => {
 
+    // SEARCH FILTER
+
     const matchesSearch =
 
       expense.title
@@ -81,6 +89,8 @@ function Dashboard({
           searchTerm.toLowerCase()
         );
 
+    // CATEGORY FILTER
+
     const matchesCategory =
 
       filterCategory === "All" ||
@@ -88,9 +98,66 @@ function Dashboard({
       expense.category ===
         filterCategory;
 
+    // TIME FILTER
+
+    const expenseDate = new Date(
+      expense.date
+    );
+
+    const today = new Date();
+
+    let matchesTime = true;
+
+    // THIS WEEK
+
+    if (timeFilter === "Week") {
+
+      const weekAgo = new Date();
+
+      weekAgo.setDate(
+        today.getDate() - 7
+      );
+
+      matchesTime =
+        expenseDate >= weekAgo;
+
+    }
+
+    // THIS MONTH
+
+    else if (
+      timeFilter === "Month"
+    ) {
+
+      matchesTime =
+
+        expenseDate.getMonth() ===
+          today.getMonth() &&
+
+        expenseDate.getFullYear() ===
+          today.getFullYear();
+
+    }
+
+    // THIS YEAR
+
+    else if (
+      timeFilter === "Year"
+    ) {
+
+      matchesTime =
+
+        expenseDate.getFullYear() ===
+        today.getFullYear();
+
+    }
+
     return (
+
       matchesSearch &&
-      matchesCategory
+      matchesCategory &&
+      matchesTime
+
     );
 
   }
@@ -403,7 +470,7 @@ const handleEditExpense = async (
                 Total Expenses
               </p>
         
-              <DollarSign className="text-[#4B1D83]" />
+              <IndianRupeeIcon className="text-[#4B1D83]" />
         
             </div>
         
@@ -571,25 +638,49 @@ const handleEditExpense = async (
       </div>
 
       {/* FILTERS */}
-
-      <div className="bg-white rounded-3xl border border-gray-200 p-6 mb-8 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
       
-        <input
-          type="text"
-          placeholder="Search expenses..."
-          value={searchTerm}
-          onChange={(e) =>
-            setSearchTerm(e.target.value)
-          }
-          className="border border-gray-200 rounded-xl px-4 py-3 w-full md:w-[300px] focus:outline-none focus:ring-2 focus:ring-pink-300"
-        />
+      <div className="bg-white rounded-3xl border border-gray-200 p-6 mb-8 flex flex-col lg:flex-row gap-4 lg:items-center">
+      
+        {/* SEARCH BAR */}
+      
+        <div className="relative flex-1">
+      
+          <Search
+            size={20}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+          />
+      
+          <input
+            type="text"
+            placeholder="Search expenses..."
+            value={searchTerm}
+            onChange={(e) =>
+              setSearchTerm(e.target.value)
+            }
+            className="w-full border border-gray-200 rounded-2xl pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
+          />
+      
+        </div>
+      
+        {/* FILTER ICON */}
+      
+        <div className="hidden lg:flex items-center justify-center">
+      
+          <Filter
+            size={22}
+            className="text-gray-500"
+          />
+      
+        </div>
+      
+        {/* CATEGORY FILTER */}
       
         <select
           value={filterCategory}
           onChange={(e) =>
             setFilterCategory(e.target.value)
           }
-          className="border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
+          className="border border-gray-200 rounded-2xl px-4 py-3 min-w-[200px] focus:outline-none focus:ring-2 focus:ring-pink-300"
         >
       
           <option value="All">
@@ -618,6 +709,34 @@ const handleEditExpense = async (
       
           <option value="Other">
             Other
+          </option>
+      
+        </select>
+      
+        {/* TIME FILTER */}
+      
+        <select
+          value={timeFilter}
+          onChange={(e) =>
+            setTimeFilter(e.target.value)
+          }
+          className="border border-gray-200 rounded-2xl px-4 py-3 min-w-[180px] focus:outline-none focus:ring-2 focus:ring-pink-300"
+        >
+      
+          <option value="All">
+            All Time
+          </option>
+      
+          <option value="Week">
+            This Week
+          </option>
+      
+          <option value="Month">
+            This Month
+          </option>
+      
+          <option value="Year">
+            This Year
           </option>
       
         </select>
