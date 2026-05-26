@@ -579,15 +579,30 @@ const getCategoryIcon = (category) => {
         </div>
 
       {/* ANALYTICS */}
+      <div className="bg-white border border-gray-200 rounded-[32px] p-6 shadow-sm mb-10">
 
       <div className="mb-6">
-
-        <h2 className="text-3xl font-bold text-gray-800">
-          Analytics Overview
+      
+        <h2 className="text-4xl font-extrabold tracking-tight">
+      
+          <span className="text-[#4B1D83]">
+      
+            Analytics
+      
+          </span>
+      
+          <span className="text-[#FF4F9A]">
+      
+            Overview
+      
+          </span>
+      
         </h2>
       
-        <p className="text-gray-500 mt-1">
+        <p className="text-gray-500 mt-1 text-sm">
+      
           Visual insights of your spending patterns
+      
         </p>
       
       </div>
@@ -691,19 +706,38 @@ const getCategoryIcon = (category) => {
 
       </div>
 
-      {/* FILTERS */}
+      </div>
+
+      {/* EXPENSE TRACK */}
+      <div className="bg-white border border-gray-200 rounded-[32px] p-6 shadow-sm">
 
       <div className="mb-6">
-
-        <h2 className="text-3xl font-bold text-gray-800">
-          Expenses
+      
+        <h2 className="text-4xl font-extrabold tracking-tight">
+      
+          <span className="text-[#4B1D83]">
+      
+            Expense
+      
+          </span>
+      
+          <span className="text-[#FF4F9A]">
+      
+            s
+      
+          </span>
+      
         </h2>
       
-        <p className="text-gray-500 mt-1">
-          Search, filter and manage your transactions
+        <p className="text-gray-500 mt-1 text-sm">
+      
+          Manage and track your daily transactions
+      
         </p>
       
       </div>
+
+      {/* FILTERS */}
       
       <div className="bg-white rounded-3xl border border-gray-200 p-6 mb-8 flex flex-col lg:flex-row gap-4 lg:items-center">
       
@@ -969,6 +1003,8 @@ const getCategoryIcon = (category) => {
 
         }
 
+      </div>
+      
       </div>
 
       </div>
