@@ -12,6 +12,7 @@
     "@radix-ui/react-dialog": "^1.1.15",
     "@supabase/supabase-js": "^2.106.1",
     "lucide-react": "^1.16.0",
+    "papaparse": "^5.5.3",
     "preact": "^10.29.1",
     "react-router-dom": "^7.15.1",
     "recharts": "^3.8.1"

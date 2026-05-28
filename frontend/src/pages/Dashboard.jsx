@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import Papa from "papaparse";
+
 import {
   PieChart,
   Pie,
@@ -26,7 +28,6 @@ const COLORS = [
 ];
 
 import {
-  DollarSign,
   IndianRupeeIcon,
   TrendingUp,
   CreditCard,
@@ -42,6 +43,7 @@ import {
   Trash2,
   ShoppingBag,
   Receipt,
+  Upload,
 } from "lucide-react";
 
 import {
@@ -410,6 +412,183 @@ const handleEditExpense = async (
 
 };
 
+const categoryKeywords = {
+
+  Food: [
+    "swiggy",
+    "zomato",
+    "dominos",
+    "starbucks",
+    "restaurant",
+    "cafe",
+    "blinkit",
+    "bigbasket",
+    "grocery",
+  ],
+
+  Travel: [
+    "uber",
+    "ola",
+    "rapido",
+    "irctc",
+    "petrol",
+    "flight",
+    "metro",
+  ],
+
+  Shopping: [
+    "amazon",
+    "flipkart",
+    "myntra",
+    "ajio",
+  ],
+
+  Bills: [
+    "electricity",
+    "bill",
+    "jio",
+    "airtel",
+    "wifi",
+    "recharge",
+  ],
+
+  Entertainment: [
+    "movie",
+    "netflix",
+    "spotify",
+    "youtube",
+    "prime",
+  ],
+
+};
+
+const categorizeTransaction = (
+  title
+) => {
+
+  const lowerTitle =
+    title.toLowerCase();
+
+  for (
+
+    const [category, keywords]
+
+    of Object.entries(
+      categoryKeywords
+    )
+
+  ) {
+
+    if (
+
+      keywords.some(
+        (keyword) =>
+
+          lowerTitle.includes(
+            keyword
+          )
+
+      )
+
+    ) {
+
+      return category;
+
+    }
+
+  }
+
+  return "Other";
+
+}; 
+
+const handleCSVUpload = async (
+  event
+) => {
+
+  const file =
+    event.target.files[0];
+
+  if (!file) return;
+
+  Papa.parse(file, {
+
+    header: true,
+
+    skipEmptyLines: true,
+
+    complete: async (
+      results
+    ) => {
+
+      try {
+
+        const parsedData =
+          results.data;
+
+        const categorizedData =
+          parsedData.map(
+            (transaction) => {
+
+              const title =
+                transaction.title || "";
+
+              const category =
+                categorizeTransaction(
+                  title
+                );
+
+              return {
+
+                title:
+                  transaction.title,
+
+                amount:
+                  transaction.amount,
+
+                date:
+                  transaction.date,
+
+                category,
+
+                user_id:
+                  user.id,
+
+              };
+
+            }
+          );
+
+        // SAVE TO SUPABASE
+
+        for (
+          const expense of categorizedData
+        ) {
+
+          await addExpense(
+            expense
+          );
+
+        }
+
+        alert(
+          `${categorizedData.length} expenses imported successfully`
+        );
+
+        fetchExpenses();
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+
+    },
+
+  });
+
+};
+
 const getCategoryIcon = (category) => {
 
   switch (category) {
@@ -494,6 +673,21 @@ const getCategoryIcon = (category) => {
             Add Expense
       
           </button>
+
+          <label className="bg-white border border-gray-200 px-6 py-3 rounded-xl flex items-center gap-2 shadow-sm cursor-pointer hover:bg-gray-50 transition-all">
+          
+            <Upload size={20} />
+          
+            Upload CSV
+          
+            <input
+              type="file"
+              accept=".csv"
+              onChange={handleCSVUpload}
+              className="hidden"
+            />
+          
+          </label>
       
           <button
             onClick={onLogout}
