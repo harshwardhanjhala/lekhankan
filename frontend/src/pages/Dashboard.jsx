@@ -357,9 +357,25 @@ useEffect(() => {
       fetchExpenses();
 
     } catch (error) {
-
-      alert(error.message);
-
+    
+      if (
+        error.message.includes(
+          "unique_expense"
+        )
+      ) {
+    
+        alert(
+          "This expense has already been added."
+        );
+    
+      } else {
+    
+        alert(
+          "Something went wrong. Please try again."
+        );
+    
+      }
+    
     } finally {
 
       setLoading(false);
@@ -502,91 +518,74 @@ const categorizeTransaction = (
 
 }; 
 
-const handleCSVUpload = async (
-  event
-) => {
-
-  const file =
-    event.target.files[0];
+const handleCSVUpload = async (event) => {
+  const file = event.target.files[0];
 
   if (!file) return;
 
   Papa.parse(file, {
-
     header: true,
-
     skipEmptyLines: true,
 
-    complete: async (
-      results
-    ) => {
-
+    complete: async (results) => {
       try {
+        const parsedData = results.data;
 
-        const parsedData =
-          results.data;
+        let importedCount = 0;
+        let duplicateCount = 0;
 
-        const categorizedData =
-          parsedData.map(
-            (transaction) => {
+        for (const transaction of parsedData) {
+          const title = transaction.title?.trim() || "";
 
-              const title =
-                transaction.title || "";
+          const category =
+            categorizeTransaction(title);
 
-              const category =
-                categorizeTransaction(
-                  title
-                );
+          // Convert DD-MM-YYYY → YYYY-MM-DD
+          const [day, month, year] =
+            transaction.date.split("-");
 
-              return {
+          const formattedDate =
+            `${year}-${month}-${day}`;
 
-                title:
-                  transaction.title,
+          try {
+            await addExpense({
+              title,
+              amount: transaction.amount,
+              date: formattedDate,
+              category,
+              user_id: user.id,
+            });
 
-                amount:
-                  transaction.amount,
+            importedCount++;
 
-                date:
-                  transaction.date,
-
-                category,
-
-                user_id:
-                  user.id,
-
-              };
-
+          } catch (error) {
+            if (
+              error.message.includes(
+                "unique_expense"
+              )
+            ) {
+              duplicateCount++;
+            } else {
+              throw error;
             }
-          );
-
-        // SAVE TO SUPABASE
-
-        for (
-          const expense of categorizedData
-        ) {
-
-          await addExpense(
-            expense
-          );
-
+          }
         }
-
-        alert(
-          `${categorizedData.length} expenses imported successfully`
-        );
 
         fetchExpenses();
 
+        alert(
+          `${importedCount} expenses imported.\n${duplicateCount} duplicates skipped.`
+        );
+
       } catch (error) {
+        console.error(error);
 
-        console.log(error);
-
+        alert(
+          "Error importing CSV file."
+        );
       }
-
     },
-
   });
-
 };
 
 const getCategoryIcon = (category) => {
@@ -683,7 +682,10 @@ const getCategoryIcon = (category) => {
             <input
               type="file"
               accept=".csv"
-              onChange={handleCSVUpload}
+              onChange={(e) => {
+                handleCSVUpload(e);
+                e.target.value = "";
+              }}
               className="hidden"
             />
           
