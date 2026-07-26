@@ -56,8 +56,13 @@ import {
 import logo from "../assets/logo.png";
 
 import AddExpenseModal from "../components/auth/AddExpenseModal";
-
 import DeleteConfirmationModal from "../components/auth/DeleteConfirmationModal";
+import ColumnMappingModal from "../components/auth/ColumnMappingModal";
+
+import {
+  getMerchantCategory,
+  saveMerchantCategory,
+} from "../services/merchantService";
 
 function Dashboard({
   user,
@@ -95,6 +100,20 @@ function Dashboard({
 
   const [expenseToDelete, setExpenseToDelete] =
   useState(null);
+
+  const [showMappingModal, setShowMappingModal] = useState(false);
+  
+  const [csvHeaders, setCsvHeaders] = useState([]);
+  
+  const [csvData, setCsvData] = useState([]);
+  
+  const [columnMapping, setColumnMapping] = useState({
+    date: "",
+    title: "",
+    amount: "",
+  });
+
+  const [importingCSV, setImportingCSV] = useState(false);
 
   const filteredExpenses = expenses.filter(
   (expense) => {
@@ -316,28 +335,30 @@ useEffect(() => {
       if (editingExpense) {
       
         await updateExpense(
-      
           editingExpense.id,
-      
           {
             title,
             amount,
             category,
             date,
           }
+        );
       
+        // Learn this merchant's category
+        await saveMerchantCategory(
+          user.id,
+          title,
+          category
         );
       
       } else {
       
         await addExpense({
-      
           title,
           amount,
           category,
           date,
           user_id: user.id,
-      
         });
       
       }
@@ -356,27 +377,13 @@ useEffect(() => {
 
       fetchExpenses();
 
-    } catch (error) {
-    
-      if (
-        error.message.includes(
-          "unique_expense"
-        )
-      ) {
-    
-        alert(
-          "This expense has already been added."
-        );
-    
-      } else {
-    
-        alert(
-          "Something went wrong. Please try again."
-        );
-    
-      }
-    
-    } finally {
+    }  catch (error) {
+
+  console.error(error);
+
+  alert(error.message);
+
+} finally {
 
       setLoading(false);
 
@@ -518,7 +525,7 @@ const categorizeTransaction = (
 
 }; 
 
-const handleCSVUpload = async (event) => {
+const handleCSVUpload = (event) => {
   const file = event.target.files[0];
 
   if (!file) return;
@@ -527,65 +534,120 @@ const handleCSVUpload = async (event) => {
     header: true,
     skipEmptyLines: true,
 
-    complete: async (results) => {
-      try {
-        const parsedData = results.data;
+    complete: (results) => {
+      if (!results.data.length) return;
 
-        let importedCount = 0;
-        let duplicateCount = 0;
+      setCsvData(results.data);
+      setCsvHeaders(Object.keys(results.data[0]));
+      setShowMappingModal(true);
+    },
 
-        for (const transaction of parsedData) {
-          const title = transaction.title?.trim() || "";
-
-          const category =
-            categorizeTransaction(title);
-
-          // Convert DD-MM-YYYY → YYYY-MM-DD
-          const [day, month, year] =
-            transaction.date.split("-");
-
-          const formattedDate =
-            `${year}-${month}-${day}`;
-
-          try {
-            await addExpense({
-              title,
-              amount: transaction.amount,
-              date: formattedDate,
-              category,
-              user_id: user.id,
-            });
-
-            importedCount++;
-
-          } catch (error) {
-            if (
-              error.message.includes(
-                "unique_expense"
-              )
-            ) {
-              duplicateCount++;
-            } else {
-              throw error;
-            }
-          }
-        }
-
-        fetchExpenses();
-
-        alert(
-          `${importedCount} expenses imported.\n${duplicateCount} duplicates skipped.`
-        );
-
-      } catch (error) {
-        console.error(error);
-
-        alert(
-          "Error importing CSV file."
-        );
-      }
+    error: (err) => {
+      console.error(err);
+      alert("Unable to read CSV file.");
     },
   });
+};
+
+const convertDate = (dateString) => {
+  if (!dateString) return "";
+
+  // DD-MM-YYYY
+  if (dateString.includes("-")) {
+    const [day, month, year] = dateString.split("-");
+
+    return `${year}-${month}-${day}`;
+  }
+
+  // DD/MM/YYYY
+  if (dateString.includes("/")) {
+    const [day, month, year] = dateString.split("/");
+
+    return `${year}-${month}-${day}`;
+  }
+
+  return dateString;
+};
+
+const handleImport = async () => {
+
+  // Close the modal immediately
+  // setShowMappingModal(false);
+
+  // Show importing state
+  setImportingCSV(true);
+
+  try {
+
+    let importedCount = 0;
+    let duplicateCount = 0;
+
+    for (const row of csvData) {
+
+      const rawDate = row[columnMapping.date];
+      const title = row[columnMapping.title]?.trim() || "";
+      const amount = row[columnMapping.amount];
+
+      if (!rawDate || !title || !amount) continue;
+
+      let category = await getMerchantCategory(
+        user.id,
+        title
+      );
+
+      if (!category) {
+        category = categorizeTransaction(title);
+      }
+
+      const formattedDate = convertDate(rawDate);
+
+      try {
+
+        await addExpense({
+          title,
+          amount,
+          date: formattedDate,
+          category,
+          user_id: user.id,
+        });
+
+        importedCount++;
+
+      } catch (error) {
+
+        if (
+          error.message &&
+          error.message.includes("unique_expense")
+        ) {
+
+          duplicateCount++;
+
+        } else {
+
+          throw error;
+
+        }
+      }
+    }
+
+    await fetchExpenses();
+    setShowMappingModal(false);
+
+    alert(
+      `${importedCount} expenses imported.\n${duplicateCount} duplicates skipped.`
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert("Error importing CSV:\n" + error.message);
+
+  } finally {
+
+    setImportingCSV(false);
+
+  }
 };
 
 const getCategoryIcon = (category) => {
@@ -725,7 +787,10 @@ const getCategoryIcon = (category) => {
             </div>
         
             <h2 className="text-4xl font-bold mb-2">
-              ₹ {totalExpenses}
+              ₹{totalExpenses.toLocaleString("en-IN", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </h2>
         
             <p className="text-gray-400">
@@ -1286,6 +1351,20 @@ const getCategoryIcon = (category) => {
       
         )
       }
+      
+      {
+        showMappingModal && (
+          <ColumnMappingModal
+            csvHeaders={csvHeaders}
+            columnMapping={columnMapping}
+            setColumnMapping={setColumnMapping}
+            handleImport={handleImport}
+            setShowMappingModal={setShowMappingModal}
+            importingCSV={importingCSV}
+          />
+        )
+      }
+      
 
     </div>
 
