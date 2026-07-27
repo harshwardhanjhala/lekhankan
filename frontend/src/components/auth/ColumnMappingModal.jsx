@@ -8,21 +8,21 @@ function ColumnMappingModal({
 }) {
   if (importingCSV) {
     return (
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-        <div className="bg-white w-full max-w-md rounded-3xl p-8 text-center">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay backdrop-blur-sm">
+        <div className="w-full max-w-md rounded-xl border border-border bg-card p-8 text-center">
   
           {/* Spinner */}
-          <div className="w-12 h-12 mx-auto border-4 border-pink-300 border-t-[#4B1D83] rounded-full animate-spin mb-6"></div>
+          <div className="mx-auto mb-6 h-12 w-12 animate-spin rounded-full border-4 border-muted border-t-primary"></div>
   
-          <h2 className="text-2xl font-bold text-gray-800">
+          <h2 className="text-2xl font-bold">
             Importing Transactions
           </h2>
   
-          <p className="text-gray-500 mt-3">
+          <p className="mt-3 text-muted-foreground">
             Please wait while we import your CSV.
           </p>
   
-          <p className="text-sm text-gray-400 mt-2">
+          <p className="mt-2 text-sm text-muted-foreground">
             This may take a few seconds...
           </p>
   
@@ -31,17 +31,17 @@ function ColumnMappingModal({
     );
   }
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay backdrop-blur-sm">
 
-      <div className="bg-white w-full max-w-md rounded-3xl p-6">
+      <div className="w-full max-w-md rounded-xl border border-border bg-card p-6">
 
-        <h2 className="text-2xl font-bold mb-6">
+        <h2 className="mb-6 text-2xl font-bold">
           Map CSV Columns
         </h2>
 
         {/* DATE */}
         <div className="mb-4">
-          <label className="block mb-2 font-medium">
+          <label className="mb-2 block font-medium">
             Date Column
           </label>
 
@@ -53,7 +53,7 @@ function ColumnMappingModal({
                 date: e.target.value,
               })
             }
-            className="w-full border rounded-xl p-3"
+            className="w-full rounded-lg border border-input p-3 outline-none focus:ring-2 focus:ring-ring"
           >
             <option value="">
               Select Date Column
@@ -72,7 +72,7 @@ function ColumnMappingModal({
 
         {/* TITLE */}
         <div className="mb-4">
-          <label className="block mb-2 font-medium">
+          <label className="mb-2 block font-medium">
             Title Column
           </label>
 
@@ -84,7 +84,7 @@ function ColumnMappingModal({
                 title: e.target.value,
               })
             }
-            className="w-full border rounded-xl p-3"
+            className="w-full rounded-lg border border-input p-3 outline-none focus:ring-2 focus:ring-ring"
           >
             <option value="">
               Select Title Column
@@ -103,7 +103,7 @@ function ColumnMappingModal({
 
         {/* AMOUNT */}
         <div className="mb-6">
-          <label className="block mb-2 font-medium">
+          <label className="mb-2 block font-medium">
             Amount Column
           </label>
 
@@ -115,7 +115,7 @@ function ColumnMappingModal({
                 amount: e.target.value,
               })
             }
-            className="w-full border rounded-xl p-3"
+            className="w-full rounded-lg border border-input p-3 outline-none focus:ring-2 focus:ring-ring"
           >
             <option value="">
               Select Amount Column
@@ -138,7 +138,7 @@ function ColumnMappingModal({
             onClick={() =>
               setShowMappingModal(false)
             }
-            className="px-4 py-2 border rounded-xl"
+            className="rounded-lg border border-border px-4 py-2 transition-colors hover:bg-secondary"
           >
             Cancel
           </button>
@@ -146,7 +146,7 @@ function ColumnMappingModal({
           <button
             onClick={handleImport}
             disabled={importingCSV}
-            className="bg-gradient-to-r from-[#4B1D83] to-[#FF4F9A] text-white px-5 py-2 rounded-xl disabled:opacity-50"
+            className="rounded-lg bg-primary px-5 py-2 text-primary-foreground transition-colors hover:bg-primary-hover disabled:opacity-50"
           >
             {importingCSV ? "Importing..." : "Import"}
           </button>

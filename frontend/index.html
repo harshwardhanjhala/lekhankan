@@ -12,8 +12,73 @@
 
   <title>Lekhankan</title>
 
-  <!-- Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script>
+    (function () {
+      const storageKey = "lekhankan-theme";
+      const stored = localStorage.getItem(storageKey);
+      const theme =
+        stored === "light" || stored === "dark"
+          ? stored
+          : window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+
+      document.documentElement.classList.add(theme);
+    })();
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            background: "var(--color-background)",
+            foreground: "var(--color-foreground)",
+            card: {
+              DEFAULT: "var(--color-card)",
+              foreground: "var(--color-card-foreground)",
+            },
+            muted: {
+              DEFAULT: "var(--color-muted)",
+              foreground: "var(--color-muted-foreground)",
+            },
+            border: "var(--color-border)",
+            input: "var(--color-input)",
+            ring: "var(--color-ring)",
+            primary: {
+              DEFAULT: "var(--color-primary)",
+              hover: "var(--color-primary-hover)",
+              foreground: "var(--color-primary-foreground)",
+            },
+            secondary: {
+              DEFAULT: "var(--color-secondary)",
+              foreground: "var(--color-secondary-foreground)",
+            },
+            accent: {
+              DEFAULT: "var(--color-accent)",
+              foreground: "var(--color-accent-foreground)",
+            },
+            destructive: {
+              DEFAULT: "var(--color-destructive)",
+              hover: "var(--color-destructive-hover)",
+            },
+            overlay: "var(--color-overlay)",
+          },
+          boxShadow: {
+            soft: "var(--shadow-md)",
+            card: "var(--shadow-sm)",
+          },
+        },
+      },
+    };
+  </script>
 
 </head>
 

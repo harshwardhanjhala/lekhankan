@@ -14,20 +14,20 @@ function AddExpenseModal({
   handleEditExpense,
 }) {
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay backdrop-blur-sm">
 
-      <div className="bg-white w-[420px] p-8 rounded-3xl relative border border-pink-100 shadow-2xl">
+      <div className="relative w-[420px] rounded-xl border border-border bg-card p-8 shadow-lg">
 
         {/* Close Button */}
         <button
           onClick={() => setShowAddExpense(false)}
-          className="absolute top-4 right-5 text-2xl text-gray-500 hover:text-pink-500"
+          className="absolute right-5 top-4 text-2xl text-muted-foreground transition-colors hover:text-foreground"
         >
           ×
         </button>
 
         {/* Heading */}
-        <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-[#5B2C83] to-[#FF5FA2] bg-clip-text text-transparent">
+        <h1 className="mb-2 text-2xl font-bold">
           {
             editingExpense
               ? "Edit Expense"
@@ -35,7 +35,7 @@ function AddExpenseModal({
           }
         </h1>
 
-        <p className="text-gray-500 mb-6">
+        <p className="mb-6 text-muted-foreground">
           {
             editingExpense
               ? "Update your expense details"
@@ -54,7 +54,7 @@ function AddExpenseModal({
             placeholder="Expense Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-300"
+            className="w-full rounded-lg border border-input p-3 outline-none focus:ring-2 focus:ring-ring"
           />
 
           <input
@@ -64,7 +64,7 @@ function AddExpenseModal({
             placeholder="Amount"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-300"
+            className="w-full rounded-lg border border-input p-3 outline-none focus:ring-2 focus:ring-ring"
           />
 
           <input
@@ -73,13 +73,13 @@ function AddExpenseModal({
             onChange={(e) =>
               setDate(e.target.value)
             }
-            className="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-300"
+            className="w-full rounded-lg border border-input p-3 outline-none focus:ring-2 focus:ring-ring"
           />
 
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-300"
+            className="w-full rounded-lg border border-input p-3 outline-none focus:ring-2 focus:ring-ring"
           >
             <option value="">
               Select Category
@@ -114,7 +114,7 @@ function AddExpenseModal({
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl text-white font-semibold bg-gradient-to-r from-[#5B2C83] to-[#FF5FA2] hover:opacity-90 transition-all"
+            className="w-full rounded-lg bg-primary py-3 font-semibold text-primary-foreground transition-colors hover:bg-primary-hover disabled:opacity-50"
           >
             {
               loading

@@ -62,26 +62,30 @@ function LoginModal({
 
   return (
 
-    <div className="fixed inset-0 bg-[#1a0b2e]/60 backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay backdrop-blur-sm">
 
-      <div className="bg-white/95 border border-pink-100 shadow-2xl w-[400px] p-8 rounded-3xl relative">
+      <div className="relative w-[400px] rounded-xl border border-border bg-card p-8 shadow-lg">
 
         {/* Close Button */}
 
         <button
           onClick={() => setShowLogin(false)}
-          className="absolute top-4 right-4 text-2xl text-[#5b2a86] hover:text-pink-500 transition-colors"
+          className="absolute right-4 top-4 text-2xl text-muted-foreground transition-colors hover:text-foreground"
         >
           ×
         </button>
 
         {/* Heading */}
 
-        <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-[#5b2a86] to-pink-500 bg-clip-text text-transparent">
+        <h1 className="mb-2 text-2xl font-bold">
 
           Welcome back
 
         </h1>
+
+        <p className="mb-6 text-sm text-muted-foreground">
+          Sign in to your account
+        </p>
 
         {/* Form */}
 
@@ -97,7 +101,7 @@ function LoginModal({
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-pink-100 focus:border-[#5b2a86] focus:ring-2 focus:ring-pink-200 outline-none p-3 rounded-xl transition-all"
+            className="w-full rounded-lg border border-input p-3 transition-all outline-none focus:ring-2 focus:ring-ring"
           />
 
           {/* Password */}
@@ -109,7 +113,7 @@ function LoginModal({
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-pink-100 focus:border-[#5b2a86] focus:ring-2 focus:ring-pink-200 outline-none p-3 rounded-xl pr-12 transition-all"
+              className="w-full rounded-lg border border-input p-3 pr-12 transition-all outline-none focus:ring-2 focus:ring-ring"
             />
 
             <button
@@ -117,7 +121,7 @@ function LoginModal({
               onClick={() =>
                 setShowPassword(!showPassword)
               }
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#5b2a86] hover:text-pink-500 transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
             >
 
               {showPassword ? (
@@ -132,7 +136,7 @@ function LoginModal({
 
           {error && (
           
-            <p className="text-red-500 text-sm">
+            <p className="text-sm text-destructive">
           
               {error}
           
@@ -143,7 +147,7 @@ function LoginModal({
           {/* Login Button */}
 
           <button
-            className="w-full bg-gradient-to-r from-[#5b2a86] to-pink-500 hover:opacity-90 text-white py-3 rounded-xl font-semibold transition-all shadow-lg"
+            className="w-full rounded-lg bg-primary py-3 font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
           >
 
             {loading ? "Signing in..." : "Sign in"}
@@ -154,13 +158,13 @@ function LoginModal({
           
             <div className="absolute inset-0 flex items-center">
           
-              <div className="w-full border-t border-gray-200"></div>
+              <div className="w-full border-t border-border"></div>
           
             </div>
           
             <div className="relative flex justify-center text-sm">
           
-              <span className="bg-white px-4 text-gray-400">
+              <span className="bg-card px-4 text-muted-foreground">
                 OR
               </span>
           
@@ -171,13 +175,13 @@ function LoginModal({
           <button
             onClick={signInWithGoogle}
             type="button"
-            className="w-full border border-gray-200 rounded-xl py-3 flex items-center justify-center gap-3 hover:bg-gray-50 transition-all duration-300"
+            className="flex w-full items-center justify-center gap-3 rounded-lg border border-border py-3 transition-colors hover:bg-secondary"
           >
           
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               alt="Google"
-              className="w-5 h-5"
+              className="h-5 w-5"
             />
           
             Continue with Google
@@ -188,7 +192,7 @@ function LoginModal({
 
         {/* Switch To Signup */}
 
-        <p className="text-center text-gray-500 mt-5">
+        <p className="mt-5 text-center text-muted-foreground">
 
           Don't have an account?
 
@@ -200,7 +204,7 @@ function LoginModal({
               setShowSignup(true);
 
             }}
-            className="ml-1 font-semibold text-[#5b2a86] hover:text-pink-500 transition-colors"
+            className="ml-1 font-semibold text-primary transition-colors hover:text-primary-hover"
           >
 
             Sign up

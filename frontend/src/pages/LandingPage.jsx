@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 
 import logo from "../assets/logo.png";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function LandingPage({
   onLoginClick,
@@ -15,36 +16,38 @@ export default function LandingPage({
 
   return (
 
-    <div className="min-h-screen bg-gradient-to-br from-[#faf5ff] via-white to-[#fff1f7]">
+    <div className="min-h-screen bg-background text-foreground">
 
       {/* Navbar */}
 
-      <nav className="border-b border-[#f3e8ff] bg-white/70 backdrop-blur-xl sticky top-0 z-40">
+      <nav className="sticky top-0 z-40 border-b border-border bg-card/80 backdrop-blur-md">
 
-        <div className="w-full px-10 md:px-16 py-2 flex items-center justify-between">
+        <div className="flex w-full items-center justify-between px-6 py-3 md:px-12">
 
           <div className="flex items-center">
-          
+
             <img
               src={logo}
               alt="Lekhankan Logo"
-              className="h-24 md:h-28 object-contain"
+              className="h-16 object-contain md:h-20"
             />
-          
+
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+
+            <ThemeToggle />
 
             <button
               onClick={onLoginClick}
-              className="px-6 py-2 text-[#4B1D74] hover:bg-[#f3e8ff] rounded-xl transition-all duration-300"
+              className="rounded-lg px-5 py-2 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
             >
               Log in
             </button>
 
             <button
               onClick={onSignupClick}
-              className="px-6 py-2 bg-[#4B1D74] text-white rounded-xl hover:bg-[#5d278f] transition-all duration-300 shadow-lg shadow-purple-200"
+              className="rounded-lg bg-primary px-5 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover"
             >
               Sign up
             </button>
@@ -59,26 +62,24 @@ export default function LandingPage({
 
       <main>
 
-        <section className="max-w-7xl mx-auto px-6 py-20 text-center">
+        <section className="mx-auto max-w-6xl px-6 py-20 text-center">
 
-          <div className="inline-block mb-4 px-5 py-2 bg-pink-100 text-[#FF5C9A] rounded-full text-sm font-medium">
+          <div className="mb-6 inline-flex items-center rounded-full border border-border bg-card px-4 py-1.5 text-sm font-medium text-muted-foreground">
 
-            Next-Gen Expense Management
+            Expense Management Platform
 
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-[#4B1D74] to-[#FF5C9A] bg-clip-text text-transparent leading-tight">
+          <h1 className="mb-6 text-4xl font-bold leading-tight tracking-tight md:text-6xl">
 
-            Track expenses smarter,
-            <br />
-            not harder
+            Track expenses with clarity and control
 
           </h1>
 
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground">
 
-            Upload your bank statements or add expenses manually.
-            Get instant insights into your spending with AI-powered categorization.
+            Upload bank statements or add expenses manually.
+            Get clear insights into your spending with smart categorization.
 
           </p>
 
@@ -86,29 +87,29 @@ export default function LandingPage({
 
             <button
               onClick={onSignupClick}
-              className="px-8 py-4 bg-[#4B1D74] text-white rounded-2xl hover:bg-[#5d278f] transition-all duration-300 text-lg shadow-xl shadow-purple-200"
+              className="rounded-lg bg-primary px-8 py-3 text-base font-medium text-primary-foreground transition-colors hover:bg-primary-hover"
             >
               Get started free
             </button>
 
             <button
               onClick={onLoginClick}
-              className="px-8 py-4 border border-[#e9d5ff] bg-white/70 rounded-2xl hover:bg-[#faf5ff] transition-all duration-300 text-lg text-[#4B1D74]"
+              className="rounded-lg border border-border bg-card px-8 py-3 text-base font-medium text-foreground transition-colors hover:bg-secondary"
             >
-              Watch demo
+              Sign in
             </button>
 
           </div>
 
           {/* Feature Cards */}
 
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
 
-            <div className="p-6 bg-white/70 backdrop-blur-lg rounded-3xl shadow-lg border border-[#f3e8ff] hover:shadow-2xl transition-all duration-300">
+            <div className="rounded-xl border border-border bg-card p-6 text-left shadow-card transition-shadow hover:shadow-soft">
 
-              <div className="w-12 h-12 bg-[#f3e8ff] rounded-xl flex items-center justify-center mb-4 mx-auto">
+              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-accent">
 
-                <Upload className="w-6 h-6 text-[#4B1D74]" />
+                <Upload className="h-5 w-5 text-primary" />
 
               </div>
 
@@ -116,20 +117,19 @@ export default function LandingPage({
                 Upload Bank Statements
               </h3>
 
-              <p className="text-gray-600 text-sm">
+              <p className="text-sm text-muted-foreground">
 
-                Drag and drop CSV or PDF files from your bank.
-                We'll automatically parse and categorize your transactions.
+                Import CSV files from your bank and automatically parse transactions.
 
               </p>
 
             </div>
 
-            <div className="p-6 bg-white/70 backdrop-blur-lg rounded-3xl shadow-lg border border-[#f3e8ff] hover:shadow-2xl transition-all duration-300">
+            <div className="rounded-xl border border-border bg-card p-6 text-left shadow-card transition-shadow hover:shadow-soft">
 
-              <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mb-4 mx-auto">
+              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-accent">
 
-                <PieChart className="w-6 h-6 text-[#FF5C9A]" />
+                <PieChart className="h-5 w-5 text-primary" />
 
               </div>
 
@@ -137,19 +137,19 @@ export default function LandingPage({
                 Visual Insights
               </h3>
 
-              <p className="text-gray-600 text-sm">
+              <p className="text-sm text-muted-foreground">
 
-                Beautiful charts and graphs help you understand where your money goes at a glance.
+                Charts and summaries help you understand spending patterns at a glance.
 
               </p>
 
             </div>
 
-            <div className="p-6 bg-white/70 backdrop-blur-lg rounded-3xl shadow-lg border border-[#f3e8ff] hover:shadow-2xl transition-all duration-300">
+            <div className="rounded-xl border border-border bg-card p-6 text-left shadow-card transition-shadow hover:shadow-soft">
 
-              <div className="w-12 h-12 bg-[#ffe4ef] rounded-xl flex items-center justify-center mb-4 mx-auto">
+              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-accent">
 
-                <TrendingDown className="w-6 h-6 text-[#FF5C9A]" />
+                <TrendingDown className="h-5 w-5 text-primary" />
 
               </div>
 
@@ -157,10 +157,9 @@ export default function LandingPage({
                 Smart Categorization
               </h3>
 
-              <p className="text-gray-600 text-sm">
+              <p className="text-sm text-muted-foreground">
 
-                AI automatically categorizes your expenses.
-                Edit categories with a single click.
+                Expenses are categorized automatically and can be edited anytime.
 
               </p>
 
@@ -172,36 +171,35 @@ export default function LandingPage({
 
         {/* Why Choose Section */}
 
-        <section className="bg-white/50 backdrop-blur-lg py-20 border-y border-[#f3e8ff]">
+        <section className="border-y border-border bg-muted/40 py-20">
 
-          <div className="max-w-7xl mx-auto px-6">
+          <div className="mx-auto max-w-6xl px-6">
 
-            <h2 className="text-3xl font-semibold text-center mb-12">
+            <h2 className="mb-12 text-center text-3xl font-semibold">
 
               Why choose Lekhankan?
 
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
 
               <div className="flex gap-4">
 
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-accent">
 
-                  <Zap className="w-5 h-5 text-blue-600" />
+                  <Zap className="h-5 w-5 text-primary" />
 
                 </div>
 
                 <div>
 
                   <h4 className="mb-2 font-semibold">
-                    Lightning Fast
+                    Fast Processing
                   </h4>
 
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-sm text-muted-foreground">
 
-                    Process thousands of transactions in seconds.
-                    No more manual data entry.
+                    Process large transaction lists quickly without manual entry.
 
                   </p>
 
@@ -211,9 +209,9 @@ export default function LandingPage({
 
               <div className="flex gap-4">
 
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-accent">
 
-                  <Shield className="w-5 h-5 text-green-600" />
+                  <Shield className="h-5 w-5 text-primary" />
 
                 </div>
 
@@ -223,33 +221,9 @@ export default function LandingPage({
                     Secure & Private
                   </h4>
 
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-sm text-muted-foreground">
 
-                    Bank-level encryption keeps your financial data safe and private.
-
-                  </p>
-
-                </div>
-
-              </div>
-
-              <div className="flex gap-4">
-
-                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-
-                  <PieChart className="w-5 h-5 text-purple-600" />
-
-                </div>
-
-                <div>
-
-                  <h4 className="mb-2 font-semibold">
-                    Beautiful Reports
-                  </h4>
-
-                  <p className="text-gray-600 text-sm">
-
-                    Export professional reports for tax season or personal budgeting.
+                    Your financial data stays protected with secure authentication.
 
                   </p>
 
@@ -259,21 +233,45 @@ export default function LandingPage({
 
               <div className="flex gap-4">
 
-                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-accent">
 
-                  <Upload className="w-5 h-5 text-orange-600" />
+                  <PieChart className="h-5 w-5 text-primary" />
 
                 </div>
 
                 <div>
 
                   <h4 className="mb-2 font-semibold">
-                    Multiple Formats
+                    Clear Reports
                   </h4>
 
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-sm text-muted-foreground">
 
-                    Support for CSV, PDF, and direct bank integrations coming soon.
+                    Review spending by category, month, and time period.
+
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div className="flex gap-4">
+
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-accent">
+
+                  <Upload className="h-5 w-5 text-primary" />
+
+                </div>
+
+                <div>
+
+                  <h4 className="mb-2 font-semibold">
+                    Flexible Imports
+                  </h4>
+
+                  <p className="text-sm text-muted-foreground">
+
+                    Add expenses manually or import them from CSV files.
 
                   </p>
 
@@ -289,23 +287,23 @@ export default function LandingPage({
 
         {/* CTA Section */}
 
-        <section className="max-w-7xl mx-auto px-6 py-20 text-center">
+        <section className="mx-auto max-w-6xl px-6 py-20 text-center">
 
-          <h2 className="text-3xl font-semibold mb-4">
+          <h2 className="mb-4 text-3xl font-semibold">
 
             Ready to take control?
 
           </h2>
 
-          <p className="text-gray-600 mb-8">
+          <p className="mb-8 text-muted-foreground">
 
-            Join thousands of users managing their expenses smarter
+            Start managing your expenses with a clear, organized dashboard.
 
           </p>
 
           <button
             onClick={onSignupClick}
-            className="px-8 py-4 bg-[#4B1D74] text-white rounded-2xl hover:bg-[#5d278f] transition-all duration-300 text-lg shadow-xl shadow-purple-200"
+            className="rounded-lg bg-primary px-8 py-3 text-base font-medium text-primary-foreground transition-colors hover:bg-primary-hover"
           >
             Start tracking for free
           </button>
@@ -316,12 +314,12 @@ export default function LandingPage({
 
       {/* Footer */}
 
-      <footer className="border-t border-[#f3e8ff] bg-white/40 backdrop-blur-lg">
+      <footer className="border-t border-border bg-card">
 
-        <div className="max-w-7xl mx-auto px-6 py-8 text-center text-sm text-gray-500">
+        <div className="mx-auto max-w-6xl px-6 py-8 text-center text-sm text-muted-foreground">
 
           <p>
-            © 2026 Lekhankan. Built with ❤️ for better financial management.
+            © 2026 Lekhankan. Built for better financial management.
           </p>
 
         </div>

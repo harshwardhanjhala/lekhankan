@@ -94,26 +94,30 @@ function SignupModal({
 
   return (
 
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay px-4 backdrop-blur-sm">
 
-      <div className="bg-white w-full max-w-md p-8 rounded-3xl relative shadow-2xl border border-pink-100">
+      <div className="relative w-full max-w-md rounded-xl border border-border bg-card p-8 shadow-lg">
 
         {/* Close Button */}
 
         <button
           onClick={() => setShowSignup(false)}
-          className="absolute top-4 right-4 text-2xl text-gray-400 hover:text-pink-500 transition-colors"
+          className="absolute right-4 top-4 text-2xl text-muted-foreground transition-colors hover:text-foreground"
         >
           ×
         </button>
 
         {/* Heading */}
 
-        <h1 className="text-3xl font-bold mb-2 text-[#4B1D83]">
+        <h1 className="mb-2 text-2xl font-bold">
 
           Create Account
 
         </h1>
+
+        <p className="mb-6 text-sm text-muted-foreground">
+          Get started with Lekhankan
+        </p>
 
         {/* Form */}
 
@@ -127,7 +131,7 @@ function SignupModal({
             placeholder="Full Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
+            className="w-full rounded-lg border border-input p-3 transition-all outline-none focus:ring-2 focus:ring-ring"
           />
 
           <input
@@ -135,7 +139,7 @@ function SignupModal({
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
+            className="w-full rounded-lg border border-input p-3 transition-all outline-none focus:ring-2 focus:ring-ring"
           />
 
           <div className="relative">
@@ -145,13 +149,13 @@ function SignupModal({
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
+              className="w-full rounded-lg border border-input p-3 transition-all outline-none focus:ring-2 focus:ring-ring"
             />
           
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-pink-500 transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
             >
           
               {showPassword ? (
@@ -173,7 +177,7 @@ function SignupModal({
               onChange={(e) =>
                 setConfirmPassword(e.target.value)
               }
-              className="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
+              className="w-full rounded-lg border border-input p-3 transition-all outline-none focus:ring-2 focus:ring-ring"
             />
           
             <button
@@ -181,7 +185,7 @@ function SignupModal({
               onClick={() =>
                 setShowConfirmPassword(!showConfirmPassword)
               }
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-pink-500 transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
             >
           
               {showConfirmPassword ? (
@@ -196,7 +200,7 @@ function SignupModal({
 
           {error && (
           
-            <p className="text-red-500 text-sm">
+            <p className="text-sm text-destructive">
           
               {error}
           
@@ -205,7 +209,7 @@ function SignupModal({
           )}
 
           <button
-            className="w-full bg-gradient-to-r from-[#4B1D83] to-[#FF5DA2] text-white py-3 rounded-xl font-medium hover:scale-[1.02] transition-all duration-300 shadow-lg"
+            className="w-full rounded-lg bg-primary py-3 font-medium text-primary-foreground transition-colors hover:bg-primary-hover"
           >
 
             {loading ? "Creating..." : "Create Account"}
@@ -216,13 +220,13 @@ function SignupModal({
           
             <div className="absolute inset-0 flex items-center">
           
-              <div className="w-full border-t border-gray-200"></div>
+              <div className="w-full border-t border-border"></div>
           
             </div>
           
             <div className="relative flex justify-center text-sm">
           
-              <span className="bg-white px-4 text-gray-400">
+              <span className="bg-card px-4 text-muted-foreground">
                 OR
               </span>
           
@@ -233,13 +237,13 @@ function SignupModal({
           <button
             onClick={signInWithGoogle}
             type="button"
-            className="w-full border border-gray-200 rounded-xl py-3 flex items-center justify-center gap-3 hover:bg-gray-50 transition-all duration-300"
+            className="flex w-full items-center justify-center gap-3 rounded-lg border border-border py-3 transition-colors hover:bg-secondary"
           >
           
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               alt="Google"
-              className="w-5 h-5"
+              className="h-5 w-5"
             />
           
             Continue with Google
@@ -247,7 +251,7 @@ function SignupModal({
           </button>
 
         </form>
-        <p className="text-center text-gray-600 mt-5">
+        <p className="mt-5 text-center text-muted-foreground">
 
           Already have an account?
         
@@ -259,7 +263,7 @@ function SignupModal({
               setShowLogin(true);
         
             }}
-            className="ml-1 font-semibold text-[#FF5DA2] hover:underline"
+            className="ml-1 font-semibold text-primary transition-colors hover:text-primary-hover"
           >
         
             Login

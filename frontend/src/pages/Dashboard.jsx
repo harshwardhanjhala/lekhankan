@@ -16,17 +16,6 @@ import {
   CartesianGrid,
 } from "recharts";
 
-const COLORS = [
-
-  "#4B1D83",
-  "#FF4F9A",
-  "#7C3AED",
-  "#EC4899",
-  "#8B5CF6",
-  "#F472B6",
-
-];
-
 import {
   IndianRupeeIcon,
   TrendingUp,
@@ -58,6 +47,9 @@ import logo from "../assets/logo.png";
 import AddExpenseModal from "../components/auth/AddExpenseModal";
 import DeleteConfirmationModal from "../components/auth/DeleteConfirmationModal";
 import ColumnMappingModal from "../components/auth/ColumnMappingModal";
+import ThemeToggle from "../components/ThemeToggle";
+
+import { useTheme } from "../context/ThemeContext";
 
 import {
   getMerchantCategory,
@@ -114,6 +106,8 @@ function Dashboard({
   });
 
   const [importingCSV, setImportingCSV] = useState(false);
+
+  const { chartColors, chartStyles } = useTheme();
 
   const filteredExpenses = expenses.filter(
   (expense) => {
@@ -678,35 +672,27 @@ const getCategoryIcon = (category) => {
 
   return (
 
-    <div className="min-h-screen bg-[#faf7ff]">
+    <div className="min-h-screen bg-background text-foreground">
 
       {/* NAVBAR */}
       
-      <div className="bg-white border-b border-gray-200 px-10 py-4 flex items-center justify-between">
+      <div className="flex items-center justify-between border-b border-border bg-card px-6 py-4 md:px-10">
       
         <div className="flex items-center gap-3">
       
           <img
             src={logo}
             alt="logo"
-            className="h-14"
+            className="h-12 md:h-14"
           />
       
           <div>
         
-            <h1 className="text-4xl font-extrabold tracking-tight leading-none">
-
-              <span className="text-[#4B1D83]">
-                Lekhan
-              </span>
-            
-              <span className="text-[#FF4F9A]">
-                kan
-              </span>
-            
+            <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
+              Lekhankan
             </h1>
         
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-muted-foreground">
         
               Welcome back,
               {" "}
@@ -722,24 +708,26 @@ const getCategoryIcon = (category) => {
       
         </div>
       
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-3 md:gap-4">
       
+          <ThemeToggle />
+
           <button
             onClick={() => setShowAddExpense(true)}
-            className="bg-gradient-to-r from-[#4B1D83] to-[#FF4F9A] text-white px-6 py-3 rounded-xl flex items-center gap-2 shadow-lg"
+            className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover md:px-5 md:py-3"
           >
       
-            <PlusCircle size={20} />
+            <PlusCircle size={18} />
       
-            Add Expense
+            <span className="hidden sm:inline">Add Expense</span>
       
           </button>
 
-          <label className="bg-white border border-gray-200 px-6 py-3 rounded-xl flex items-center gap-2 shadow-sm cursor-pointer hover:bg-gray-50 transition-all">
+          <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium transition-colors hover:bg-secondary md:px-5 md:py-3">
           
-            <Upload size={20} />
+            <Upload size={18} />
           
-            Upload CSV
+            <span className="hidden sm:inline">Upload CSV</span>
           
             <input
               type="file"
@@ -755,12 +743,12 @@ const getCategoryIcon = (category) => {
       
           <button
             onClick={onLogout}
-            className="flex items-center gap-2 font-medium"
+            className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
       
-            <LogOut size={20} />
+            <LogOut size={18} />
       
-            Logout
+            <span className="hidden sm:inline">Logout</span>
       
           </button>
       
@@ -768,32 +756,32 @@ const getCategoryIcon = (category) => {
       
       </div>
 
-      <div className="px-10 py-10">
+      <div className="px-6 py-8 md:px-10 md:py-10">
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-3">
 
           {/* TOTAL EXPENSES */}
         
-          <div className="bg-white p-8 rounded-3xl border border-gray-200">
+          <div className="rounded-xl border border-border bg-card p-6 md:p-8">
         
-            <div className="flex justify-between items-start mb-6">
+            <div className="mb-6 flex items-start justify-between">
         
-              <p className="text-gray-500 text-lg">
+              <p className="text-muted-foreground">
                 Total Expenses
               </p>
         
-              <IndianRupeeIcon className="text-[#4B1D83]" />
+              <IndianRupeeIcon className="text-primary" />
         
             </div>
         
-            <h2 className="text-4xl font-bold mb-2">
+            <h2 className="mb-2 text-3xl font-bold md:text-4xl">
               ₹{totalExpenses.toLocaleString("en-IN", {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}
             </h2>
         
-            <p className="text-gray-400">
+            <p className="text-sm text-muted-foreground">
               All time
             </p>
         
@@ -801,23 +789,23 @@ const getCategoryIcon = (category) => {
         
           {/* TRANSACTIONS */}
         
-          <div className="bg-white p-8 rounded-3xl border border-gray-200">
+          <div className="rounded-xl border border-border bg-card p-6 md:p-8">
         
-            <div className="flex justify-between items-start mb-6">
+            <div className="mb-6 flex items-start justify-between">
         
-              <p className="text-gray-500 text-lg">
+              <p className="text-muted-foreground">
                 Total Transactions
               </p>
         
-              <TrendingUp className="text-pink-500" />
+              <TrendingUp className="text-primary" />
         
             </div>
         
-            <h2 className="text-4xl font-bold mb-2">
+            <h2 className="mb-2 text-3xl font-bold md:text-4xl">
               {filteredExpenses.length}
             </h2>
         
-            <p className="text-gray-400">
+            <p className="text-sm text-muted-foreground">
               All time
             </p>
         
@@ -825,25 +813,25 @@ const getCategoryIcon = (category) => {
         
           {/* CATEGORY */}
         
-          <div className="bg-white p-8 rounded-3xl border border-gray-200">
+          <div className="rounded-xl border border-border bg-card p-6 md:p-8">
         
-            <div className="flex justify-between items-start mb-6">
+            <div className="mb-6 flex items-start justify-between">
         
-              <p className="text-gray-500 text-lg">
+              <p className="text-muted-foreground">
                 Categories
               </p>
         
-              <CreditCard className="text-green-500" />
+              <CreditCard className="text-primary" />
         
             </div>
         
-            <h2 className="text-4xl font-bold mb-2">
+            <h2 className="mb-2 text-3xl font-bold md:text-4xl">
         
               {[...new Set(filteredExpenses.map((e) => e.category))].length}
         
             </h2>
         
-            <p className="text-gray-400">
+            <p className="text-sm text-muted-foreground">
               Active categories
             </p>
         
@@ -852,27 +840,15 @@ const getCategoryIcon = (category) => {
         </div>
 
       {/* ANALYTICS */}
-      <div className="bg-white border border-gray-200 rounded-[32px] p-6 shadow-sm mb-10">
+      <div className="mb-10 rounded-xl border border-border bg-card p-6 shadow-card">
 
       <div className="mb-6">
       
-        <h2 className="text-4xl font-extrabold tracking-tight">
-      
-          <span className="text-[#4B1D83]">
-      
-            Analytics
-      
-          </span>
-      
-          <span className="text-[#FF4F9A]">
-      
-            Overview
-      
-          </span>
-      
+        <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+          Analytics Overview
         </h2>
       
-        <p className="text-gray-500 mt-1 text-sm">
+        <p className="mt-1 text-sm text-muted-foreground">
       
           Visual insights of your spending patterns
       
@@ -880,17 +856,17 @@ const getCategoryIcon = (category) => {
       
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+      <div className="mb-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
 
-      <div className="bg-white rounded-3xl border border-gray-200 p-8 mb-10">
+      <div className="rounded-xl border border-border bg-card p-6 md:p-8">
       
-        <h2 className="text-2xl font-bold mb-8">
+        <h2 className="mb-8 text-xl font-semibold">
       
           Spending Analytics
       
         </h2>
       
-        <div className="w-full h-[400px]">
+        <div className="h-[400px] w-full">
       
           <ResponsiveContainer>
       
@@ -913,7 +889,7 @@ const getCategoryIcon = (category) => {
                     <Cell
                       key={`cell-${index}`}
                       fill={
-                        COLORS[index % COLORS.length]
+                        chartColors[index % chartColors.length]
                       }
                     />
       
@@ -923,7 +899,14 @@ const getCategoryIcon = (category) => {
       
               </Pie>
       
-              <Tooltip />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "var(--color-card)",
+                  borderColor: "var(--color-border)",
+                  color: "var(--color-foreground)",
+                  borderRadius: "0.5rem",
+                }}
+              />
       
               <Legend />
       
@@ -937,15 +920,15 @@ const getCategoryIcon = (category) => {
 
       {/* MONTHLY BAR CHART */}
 
-      <div className="bg-white rounded-3xl border border-gray-200 p-8 mb-10">
+      <div className="rounded-xl border border-border bg-card p-6 md:p-8">
       
-        <h2 className="text-2xl font-bold mb-8">
+        <h2 className="mb-8 text-xl font-semibold">
       
           Monthly Spending
       
         </h2>
       
-        <div className="w-full h-[400px]">
+        <div className="h-[400px] w-full">
       
           <ResponsiveContainer>
       
@@ -955,18 +938,33 @@ const getCategoryIcon = (category) => {
       
               <CartesianGrid
                 strokeDasharray="3 3"
+                stroke={chartStyles.grid}
               />
       
-              <XAxis dataKey="month" />
+              <XAxis
+                dataKey="month"
+                stroke={chartStyles.axis}
+                tick={{ fill: chartStyles.axis }}
+              />
       
-              <YAxis />
+              <YAxis
+                stroke={chartStyles.axis}
+                tick={{ fill: chartStyles.axis }}
+              />
       
-              <Tooltip />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "var(--color-card)",
+                  borderColor: "var(--color-border)",
+                  color: "var(--color-foreground)",
+                  borderRadius: "0.5rem",
+                }}
+              />
       
               <Bar
                 dataKey="amount"
-                fill="#4B1D83"
-                radius={[10, 10, 0, 0]}
+                fill={chartStyles.primary}
+                radius={[8, 8, 0, 0]}
               />
       
             </BarChart>
@@ -982,27 +980,15 @@ const getCategoryIcon = (category) => {
       </div>
 
       {/* EXPENSE TRACK */}
-      <div className="bg-white border border-gray-200 rounded-[32px] p-6 shadow-sm">
+      <div className="rounded-xl border border-border bg-card p-6 shadow-card">
 
       <div className="mb-6">
       
-        <h2 className="text-4xl font-extrabold tracking-tight">
-      
-          <span className="text-[#4B1D83]">
-      
-            Expense
-      
-          </span>
-      
-          <span className="text-[#FF4F9A]">
-      
-            s
-      
-          </span>
-      
+        <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+          Expenses
         </h2>
       
-        <p className="text-gray-500 mt-1 text-sm">
+        <p className="mt-1 text-sm text-muted-foreground">
       
           Manage and track your daily transactions
       
@@ -1012,7 +998,7 @@ const getCategoryIcon = (category) => {
 
       {/* FILTERS */}
       
-      <div className="bg-white rounded-3xl border border-gray-200 p-6 mb-8 flex flex-col lg:flex-row gap-4 lg:items-center">
+      <div className="mb-8 flex flex-col gap-4 rounded-xl border border-border bg-card p-4 md:p-6 lg:flex-row lg:items-center">
       
         {/* SEARCH BAR */}
       
@@ -1020,7 +1006,7 @@ const getCategoryIcon = (category) => {
       
           <Search
             size={20}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"
           />
       
           <input
@@ -1030,18 +1016,18 @@ const getCategoryIcon = (category) => {
             onChange={(e) =>
               setSearchTerm(e.target.value)
             }
-            className="w-full border border-gray-200 rounded-2xl pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
+            className="w-full rounded-lg border border-input py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-ring"
           />
       
         </div>
       
         {/* FILTER ICON */}
       
-        <div className="hidden lg:flex items-center justify-center">
+        <div className="hidden items-center justify-center lg:flex">
       
           <Filter
             size={22}
-            className="text-gray-500"
+            className="text-muted-foreground"
           />
       
         </div>
@@ -1053,7 +1039,7 @@ const getCategoryIcon = (category) => {
           onChange={(e) =>
             setFilterCategory(e.target.value)
           }
-          className="border border-gray-200 rounded-2xl px-4 py-3 min-w-[200px] focus:outline-none focus:ring-2 focus:ring-pink-300"
+          className="min-w-[200px] rounded-lg border border-input px-4 py-3 focus:outline-none focus:ring-2 focus:ring-ring"
         >
       
           <option value="All">
@@ -1093,7 +1079,7 @@ const getCategoryIcon = (category) => {
           onChange={(e) =>
             setTimeFilter(e.target.value)
           }
-          className="border border-gray-200 rounded-2xl px-4 py-3 min-w-[180px] focus:outline-none focus:ring-2 focus:ring-pink-300"
+          className="min-w-[180px] rounded-lg border border-input px-4 py-3 focus:outline-none focus:ring-2 focus:ring-ring"
         >
       
           <option value="All">
@@ -1124,27 +1110,27 @@ const getCategoryIcon = (category) => {
 
           expenses.length === 0 ? (
 
-            <div className="bg-white border border-dashed border-gray-300 rounded-3xl p-16 text-center">
+            <div className="rounded-xl border border-dashed border-border bg-muted/30 p-16 text-center">
 
-              <div className="flex justify-center mb-5">
+              <div className="mb-5 flex justify-center">
             
-                <div className="h-20 w-20 rounded-full bg-gradient-to-r from-[#4B1D83] to-[#FF4F9A] flex items-center justify-center text-white text-3xl shadow-xl">
+                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary text-3xl text-primary-foreground">
                   ₹
                 </div>
             
               </div>
             
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">
+              <h2 className="mb-2 text-2xl font-bold">
                 No Expenses Found
               </h2>
             
-              <p className="text-gray-500 mb-6">
+              <p className="mb-6 text-muted-foreground">
                 Start tracking your spending by adding your first expense.
               </p>
             
               <button
                 onClick={() => setShowAddExpense(true)}
-                className="bg-gradient-to-r from-[#4B1D83] to-[#FF4F9A] text-white px-6 py-3 rounded-2xl shadow-lg hover:opacity-90 transition-all"
+                className="rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground transition-colors hover:bg-primary-hover"
               >
                 Add Expense
               </button>
@@ -1159,14 +1145,14 @@ const getCategoryIcon = (category) => {
 
               <div
                 key={expense.id}
-                className="bg-white border border-gray-200 rounded-3xl px-6 py-5 flex items-center justify-between hover:shadow-lg transition-all duration-300"
+                className="flex items-center justify-between rounded-xl border border-border bg-card px-6 py-5 transition-shadow hover:shadow-soft"
               >
               
                 {/* LEFT SIDE */}
                 <div className="flex items-center gap-4">
               
                   {/* ICON BOX */}
-                  <div className="h-14 w-14 rounded-2xl bg-gray-100 flex items-center justify-center">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-muted">
               
                     {getCategoryIcon(expense.category)}
               
@@ -1175,27 +1161,27 @@ const getCategoryIcon = (category) => {
                   {/* DETAILS */}
                   <div>
               
-                    <h3 className="text-xl font-semibold text-gray-800">
+                    <h3 className="text-lg font-semibold md:text-xl">
               
                       {expense.title}
               
                     </h3>
               
-                    <div className="flex items-center gap-3 mt-1 flex-wrap">
+                    <div className="mt-1 flex flex-wrap items-center gap-3">
               
-                      <p className="text-gray-400 text-sm">
+                      <p className="text-sm text-muted-foreground">
               
                         {expense.date}
               
                       </p>
               
-                      <span className="text-gray-300">
+                      <span className="text-border">
               
                         •
               
                       </span>
               
-                      <p className="bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full">
+                      <p className="rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground">
               
                         {expense.category}
               
@@ -1211,7 +1197,7 @@ const getCategoryIcon = (category) => {
                 <div className="flex items-center gap-5">
               
                   {/* AMOUNT */}
-                  <p className="text-2xl font-bold text-[#4B1D83]">
+                  <p className="text-xl font-bold text-primary md:text-2xl">
               
                     ₹ {expense.amount}
               
@@ -1237,12 +1223,12 @@ const getCategoryIcon = (category) => {
                         setShowAddExpense(true);
               
                       }}
-                      className="p-2 rounded-xl hover:bg-gray-100 transition-all"
+                      className="rounded-lg p-2 transition-colors hover:bg-secondary"
                     >
               
                       <Pencil
                         size={18}
-                        className="text-gray-600"
+                        className="text-muted-foreground"
                       />
               
                     </button>
@@ -1256,12 +1242,12 @@ const getCategoryIcon = (category) => {
                         setShowDeleteModal(true);
                       
                       }}
-                      className="p-2 rounded-xl hover:bg-red-50 transition-all"
+                      className="rounded-lg p-2 transition-colors hover:bg-destructive/10"
                     >
               
                       <Trash2
                         size={18}
-                        className="text-red-500"
+                        className="text-destructive"
                       />
               
                     </button>
@@ -1290,7 +1276,7 @@ const getCategoryIcon = (category) => {
                   prev => prev + 6
                 )
               }
-              className="bg-gradient-to-r from-[#4B1D83] to-[#FF4F9A] text-white px-6 py-3 rounded-2xl font-medium shadow-md hover:scale-105 transition-all duration-300"
+              className="rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground transition-colors hover:bg-primary-hover"
             >
       
               Load More

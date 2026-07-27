@@ -6,6 +6,8 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 
+import { ThemeProvider } from "./context/ThemeContext";
+
 import "./index.css";
 
 ReactDOM.createRoot(
@@ -16,7 +18,11 @@ ReactDOM.createRoot(
 
     <BrowserRouter>
 
-      <App />
+      <ThemeProvider>
+
+        <App />
+
+      </ThemeProvider>
 
     </BrowserRouter>
 

@@ -7,17 +7,17 @@ function DeleteConfirmationModal({
 
   return (
 
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay backdrop-blur-sm">
 
-      <div className="bg-white rounded-3xl p-8 w-[90%] max-w-md shadow-2xl">
+      <div className="w-[90%] max-w-md rounded-xl border border-border bg-card p-8 shadow-lg">
 
-        <h2 className="text-2xl font-bold text-gray-800 mb-3">
+        <h2 className="mb-3 text-2xl font-bold">
 
           Delete Expense
 
         </h2>
 
-        <p className="text-gray-500 mb-8">
+        <p className="mb-8 text-muted-foreground">
 
           Are you sure you want to delete this expense?
           This action cannot be undone.
@@ -31,7 +31,7 @@ function DeleteConfirmationModal({
             onClick={() =>
               setShowDeleteModal(false)
             }
-            className="px-5 py-2 rounded-xl border border-gray-300 hover:bg-gray-100 transition-all"
+            className="rounded-lg border border-border px-5 py-2 transition-colors hover:bg-secondary"
           >
 
             Cancel
@@ -41,7 +41,7 @@ function DeleteConfirmationModal({
           {/* DELETE */}
           <button
             onClick={handleConfirmDelete}
-            className="px-5 py-2 rounded-xl bg-red-500 text-white hover:bg-red-600 transition-all"
+            className="rounded-lg bg-destructive px-5 py-2 text-white transition-colors hover:bg-destructive-hover"
           >
 
             Delete
