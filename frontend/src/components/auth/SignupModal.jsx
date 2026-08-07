@@ -61,7 +61,7 @@ function SignupModal({
     setLoading(true);
 
     const { error } = await signUp(
-        fullName,
+        name,
         email,
         password
       );
