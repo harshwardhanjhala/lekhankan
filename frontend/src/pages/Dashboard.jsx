@@ -48,6 +48,7 @@ import AddExpenseModal from "../components/auth/AddExpenseModal";
 import DeleteConfirmationModal from "../components/auth/DeleteConfirmationModal";
 import ColumnMappingModal from "../components/auth/ColumnMappingModal";
 import ThemeToggle from "../components/ThemeToggle";
+import { extractPDFText } from "../services/pdfService";
 
 import { useTheme } from "../context/ThemeContext";
 
@@ -563,6 +564,27 @@ const convertDate = (dateString) => {
   return dateString;
 };
 
+const handlePDFUpload = async (e) => {
+  const file = e.target.files[0];
+
+  if (!file) return;
+
+  try {
+    const text = await extractPDFText(file);
+
+    console.log(text);
+
+    alert("PDF text extracted successfully! Check the console.");
+
+  } catch (error) {
+    console.error(error);
+
+    alert("Failed to read PDF.");
+  }
+
+  e.target.value = "";
+};
+
 const handleImport = async () => {
 
   // Close the modal immediately
@@ -580,6 +602,16 @@ const handleImport = async () => {
 
       const rawDate = row[columnMapping.date];
       const title = row[columnMapping.title]?.trim() || "";
+      
+      const lowerTitle = title.toLowerCase();
+      
+      if (
+        lowerTitle.startsWith("received from") ||
+        lowerTitle.includes("received")
+      ) {
+        continue;
+      }
+      
       const amount = row[columnMapping.amount];
 
       if (!rawDate || !title || !amount) continue;
@@ -723,23 +755,48 @@ const getCategoryIcon = (category) => {
       
           </button>
 
-          <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium transition-colors hover:bg-secondary md:px-5 md:py-3">
+          <div className="flex gap-3">
+
+            {/* CSV Upload */}
+            <label className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-4 py-2 text-primary-foreground transition hover:bg-primary-hover">
           
-            <Upload size={18} />
+              <Upload size={18} />
           
-            <span className="hidden sm:inline">Upload CSV</span>
+              <span className="hidden sm:inline">
+                Upload CSV
+              </span>
           
-            <input
-              type="file"
-              accept=".csv"
-              onChange={(e) => {
-                handleCSVUpload(e);
-                e.target.value = "";
-              }}
-              className="hidden"
-            />
+              <input
+                type="file"
+                accept=".csv"
+                onChange={(e) => {
+                  handleCSVUpload(e);
+                  e.target.value = "";
+                }}
+                className="hidden"
+              />
           
-          </label>
+            </label>
+          
+            {/* PDF Upload */}
+            <label className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-4 py-2 text-primary-foreground transition hover:bg-primary-hover">
+          
+              <Upload size={18} />
+          
+              <span className="hidden sm:inline">
+                Upload PDF
+              </span>
+          
+              <input
+                type="file"
+                accept=".pdf"
+                onChange={handlePDFUpload}
+                className="hidden"
+              />
+          
+            </label>
+          
+          </div>
       
           <button
             onClick={onLogout}
