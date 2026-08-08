@@ -1,11 +1,10 @@
 import * as pdfjsLib from "pdfjs-dist";
-
-// Worker for Vite
 import pdfWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 export async function extractPDFText(file) {
+
   const arrayBuffer = await file.arrayBuffer();
 
   const pdf = await pdfjsLib.getDocument({
@@ -15,16 +14,47 @@ export async function extractPDFText(file) {
   let fullText = "";
 
   for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+
     const page = await pdf.getPage(pageNumber);
 
     const content = await page.getTextContent();
 
-    const pageText = content.items
-      .map((item) => item.str)
-      .join(" ");
+    // Sort by vertical position (top → bottom)
+    const items = [...content.items].sort(
+      (a, b) => b.transform[5] - a.transform[5]
+    );
 
-    fullText += pageText + "\n";
+    let currentY = null;
+    let currentLine = [];
+
+    for (const item of items) {
+
+      const y = item.transform[5];
+
+      if (
+        currentY !== null &&
+        Math.abs(currentY - y) > 2
+      ) {
+
+        fullText += currentLine.join(" ") + "\n";
+
+        currentLine = [];
+      }
+
+      currentLine.push(item.str);
+
+      currentY = y;
+    }
+
+    if (currentLine.length) {
+
+      fullText += currentLine.join(" ") + "\n";
+
+    }
+
+    fullText += "\n";
   }
 
   return fullText;
+
 }

@@ -49,7 +49,9 @@ import DeleteConfirmationModal from "../components/auth/DeleteConfirmationModal"
 import ColumnMappingModal from "../components/auth/ColumnMappingModal";
 import ThemeToggle from "../components/ThemeToggle";
 import { extractPDFText } from "../services/pdfService";
-
+import { parseStatement } from "../parsers/statementParser";
+import PDFPreviewModal from "../components/auth/PDFPreviewModal";
+import { importTransactions } from "../services/importService";
 import { useTheme } from "../context/ThemeContext";
 
 import {
@@ -109,6 +111,12 @@ function Dashboard({
   const [importingCSV, setImportingCSV] = useState(false);
 
   const { chartColors, chartStyles } = useTheme();
+
+  const [pdfTransactions, setPdfTransactions] = useState([]);
+
+  const [showPDFPreview, setShowPDFPreview] = useState(false);
+  
+  const [importingPDF, setImportingPDF] = useState(false);
 
   const filteredExpenses = expenses.filter(
   (expense) => {
@@ -210,26 +218,35 @@ function Dashboard({
 // CATEGORY DATA FOR PIE CHART
 
 const categoryData = Object.values(
-
   filteredExpenses.reduce((acc, expense) => {
 
-    if (!acc[expense.category]) {
+    const rawCategory =
+      expense.category || "Others";
 
-      acc[expense.category] = {
+    const category =
+      rawCategory.trim().toLowerCase();
 
-        name: expense.category,
+    const categoryName =
+      category === "other" || category === "others"
+        ? "Others"
+        : rawCategory.trim();
+
+    if (!acc[categoryName]) {
+
+      acc[categoryName] = {
+        name: categoryName,
         value: 0,
-
       };
 
     }
 
-    acc[expense.category].value += Number(expense.amount);
+    acc[categoryName].value += Number(
+      expense.amount
+    );
 
     return acc;
 
   }, {})
-
 );
 
 // MONTHLY DATA FOR BAR CHART
@@ -520,6 +537,57 @@ const categorizeTransaction = (
 
 }; 
 
+const handlePDFUpload = async (e) => {
+  const file = e.target.files[0];
+
+  if (!file) return;
+
+  try {
+    const text = await extractPDFText(file);
+
+    const transactions = parseStatement(text);
+
+    setPdfTransactions(transactions);
+
+    setShowPDFPreview(true);
+
+    e.target.value = "";
+  } catch (error) {
+    console.error(error);
+
+    alert("Failed to read PDF.");
+  }
+};
+
+const handleImportPDF = async () => {
+  try {
+    setImportingPDF(true);
+
+    const result = await importTransactions({
+      transactions: pdfTransactions,
+      user,
+      fetchExpenses,
+    });
+
+    setShowPDFPreview(false);
+    setPdfTransactions([]);
+
+    alert(
+      `PDF imported successfully!\n\n` +
+      `Imported: ${result.importedCount}\n` +
+      `Duplicates: ${result.duplicateCount}`
+    );
+
+  } catch (error) {
+    console.error(error);
+
+    alert(error.message);
+
+  } finally {
+    setImportingPDF(false);
+  }
+};
+
 const handleCSVUpload = (event) => {
   const file = event.target.files[0];
 
@@ -562,27 +630,6 @@ const convertDate = (dateString) => {
   }
 
   return dateString;
-};
-
-const handlePDFUpload = async (e) => {
-  const file = e.target.files[0];
-
-  if (!file) return;
-
-  try {
-    const text = await extractPDFText(file);
-
-    console.log(text);
-
-    alert("PDF text extracted successfully! Check the console.");
-
-  } catch (error) {
-    console.error(error);
-
-    alert("Failed to read PDF.");
-  }
-
-  e.target.value = "";
 };
 
 const handleImport = async () => {
@@ -1404,6 +1451,20 @@ const getCategoryIcon = (category) => {
             handleImport={handleImport}
             setShowMappingModal={setShowMappingModal}
             importingCSV={importingCSV}
+          />
+        )
+      }
+
+      {
+        showPDFPreview && (
+          <PDFPreviewModal
+            transactions={pdfTransactions}
+            importing={importingPDF}
+            onCancel={() => {
+              setShowPDFPreview(false);
+              setPdfTransactions([]);
+            }}
+            onImport={handleImportPDF}
           />
         )
       }
