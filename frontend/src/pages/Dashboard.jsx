@@ -33,6 +33,9 @@ import {
   ShoppingBag,
   Receipt,
   Upload,
+  Fuel,
+  GraduationCap,
+  Stethoscope,
 } from "lucide-react";
 
 import {
@@ -724,29 +727,87 @@ const handleImport = async () => {
 };
 
 const getCategoryIcon = (category) => {
-
   switch (category) {
-
     case "Food":
-      return <Utensils size={22} className="text-orange-500" />;
-
-    case "Travel":
-      return <Car size={22} className="text-blue-500" />;
-
-    case "Entertainment":
-      return <Film size={22} className="text-purple-500" />;
-
-    case "Bills":
-      return <Bolt size={22} className="text-yellow-500" />;
+      return (
+        <Utensils
+          size={22}
+          className="text-orange-500"
+        />
+      );
 
     case "Shopping":
-      return <ShoppingBag size={22} className="text-pink-500" />;
+      return (
+        <ShoppingBag
+          size={22}
+          className="text-pink-500"
+        />
+      );
+
+    case "Bills":
+      return (
+        <Bolt
+          size={22}
+          className="text-yellow-500"
+        />
+      );
+
+    case "Fuel":
+      return (
+        <Fuel
+          size={22}
+          className="text-red-500"
+        />
+      );
+
+    case "Education":
+      return (
+        <GraduationCap
+          size={22}
+          className="text-indigo-500"
+        />
+      );
+
+    case "Travel":
+      return (
+        <Car
+          size={22}
+          className="text-blue-500"
+        />
+      );
+
+    case "Entertainment":
+      return (
+        <Film
+          size={22}
+          className="text-purple-500"
+        />
+      );
+
+    case "Medical":
+      return (
+        <Stethoscope
+          size={22}
+          className="text-green-500"
+        />
+      );
+
+    case "Others":
+      return (
+        <Receipt
+          size={22}
+          className="text-gray-500"
+        />
+      );
 
     default:
-      return <Receipt size={22} className="text-gray-500" />;
-
+      return (
+        <Receipt
+          size={22}
+          className="text-gray-500"
+        />
+      );
   }
-
 };
 
   return (
@@ -1145,35 +1206,45 @@ const getCategoryIcon = (category) => {
           }
           className="min-w-[200px] rounded-lg border border-input px-4 py-3 focus:outline-none focus:ring-2 focus:ring-ring"
         >
-      
           <option value="All">
             All Categories
           </option>
-      
+        
           <option value="Food">
             Food
           </option>
-      
-          <option value="Travel">
-            Travel
-          </option>
-      
+        
           <option value="Shopping">
             Shopping
           </option>
-      
+        
           <option value="Bills">
             Bills
           </option>
-      
+        
+          <option value="Fuel">
+            Fuel
+          </option>
+        
+          <option value="Education">
+            Education
+          </option>
+        
+          <option value="Travel">
+            Travel
+          </option>
+        
           <option value="Entertainment">
             Entertainment
           </option>
-      
-          <option value="Other">
-            Other
+        
+          <option value="Medical">
+            Medical
           </option>
-      
+        
+          <option value="Others">
+            Others
+          </option>
         </select>
       
         {/* TIME FILTER */}
