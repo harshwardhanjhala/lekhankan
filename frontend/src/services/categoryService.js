@@ -66,6 +66,7 @@ const categoryRules = [
       "education",
       "tuition",
       "course",
+      "Stationery",
     ],
   },
 
