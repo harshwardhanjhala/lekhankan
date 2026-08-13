@@ -66,7 +66,7 @@ const categoryRules = [
       "education",
       "tuition",
       "course",
-      "Stationery",
+      "stationery",
     ],
   },
 
@@ -89,6 +89,7 @@ const categoryRules = [
     keywords: [
       "movie",
       "cinema",
+      "netflix",
       "pvr",
       "inox",
       "game",

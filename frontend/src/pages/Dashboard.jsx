@@ -56,6 +56,7 @@ import { parseStatement } from "../parsers/statementParser";
 import PDFPreviewModal from "../components/auth/PDFPreviewModal";
 import { importTransactions } from "../services/importService";
 import { useTheme } from "../context/ThemeContext";
+import { categorizeTransaction } from "../services/categoryService";
 
 import {
   getMerchantCategory,
@@ -449,96 +450,6 @@ const handleEditExpense = async (
   }
 
 };
-
-const categoryKeywords = {
-
-  Food: [
-    "swiggy",
-    "zomato",
-    "dominos",
-    "starbucks",
-    "restaurant",
-    "cafe",
-    "blinkit",
-    "bigbasket",
-    "grocery",
-  ],
-
-  Travel: [
-    "uber",
-    "ola",
-    "rapido",
-    "irctc",
-    "petrol",
-    "flight",
-    "metro",
-  ],
-
-  Shopping: [
-    "amazon",
-    "flipkart",
-    "myntra",
-    "ajio",
-  ],
-
-  Bills: [
-    "electricity",
-    "bill",
-    "jio",
-    "airtel",
-    "wifi",
-    "recharge",
-  ],
-
-  Entertainment: [
-    "movie",
-    "netflix",
-    "spotify",
-    "youtube",
-    "prime",
-  ],
-
-};
-
-const categorizeTransaction = (
-  title
-) => {
-
-  const lowerTitle =
-    title.toLowerCase();
-
-  for (
-
-    const [category, keywords]
-
-    of Object.entries(
-      categoryKeywords
-    )
-
-  ) {
-
-    if (
-
-      keywords.some(
-        (keyword) =>
-
-          lowerTitle.includes(
-            keyword
-          )
-
-      )
-
-    ) {
-
-      return category;
-
-    }
-
-  }
-
-  return "Other";
-
-}; 
 
 const handlePDFUpload = async (e) => {
   const file = e.target.files[0];
